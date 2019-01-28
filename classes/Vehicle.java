@@ -8,12 +8,7 @@ public class Vehicle {
     private Depot endDepot = null;
     private int currentLoad = 0;
     private double rDurNoReturn = 0.0; //route duration to the Final Costomer, but not including to end depot
-
     private ArrayList<Customer> customers = new ArrayList<>();
-
-    // Mulige variabler
-    private int availableLoad = 0; // Kapasitet som er igjen (load)
-    private int availableDuration = 0; // Hvor mye bensin man har igjen (duration)
 
     public Vehicle(Depot startDepot) {
         this.startDepot = startDepot;

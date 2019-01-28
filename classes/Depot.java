@@ -6,8 +6,6 @@ public class Depot extends PositionNode{
     private double maxDuration = 0; // Maximum duration of a route
     private int maxLoad = 0; // Allowed maximum load of a vehicle
     
-    private int heihei = 0; //еееее
-
     public Depot(double maxDuration, int maxLoad) {
         super();
         this.maxDuration = maxDuration;

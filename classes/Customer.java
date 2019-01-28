@@ -7,13 +7,10 @@ public class Customer extends PositionNode{
     private int id = 0; // Customer number
     private int duration = 0; // Necessary service duration required for this customer
     private int demand = 0; // Demand for this customer
-
-
+    
     private double closestDepotLength = 0; // How far until closest depot - Euclidean distance
     private Depot closestDepot; // How far until closest depot - Euclidean distance
     
-    private double StianErKul = 0.0;
-
     /*
      * Methods
      */
@@ -33,8 +30,8 @@ public class Customer extends PositionNode{
                 closestDepot = depot;
                 minDist = dist;
             }else if(dist < minDist){
-                minDist = dist;
-                closestDepot = depot;
+            	closestDepot = depot;
+            	minDist = dist;
             }
         }
         closestDepotLength = minDist;

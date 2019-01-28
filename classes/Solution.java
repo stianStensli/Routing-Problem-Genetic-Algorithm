@@ -1,7 +1,6 @@
 package classes;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import main.Run;
 
@@ -20,25 +19,6 @@ public class Solution {
     /*
      * Methods
      */
-    Random r = new Random();
-
-    public void testt() {
-        boolean feasible = true;
-
-        while(true) {
-            feasible = true;
-
-            for(int i = 0; i < Run.customers.size(); i++) {
-                double distance[] = new double[100];
-
-                for(int j = 0; j < Run.depots.size(); j++) {
-                    distance[j] = PositionNode.distanceTo(Run.depots.get(j), Run.customers.get(i));
-                    System.out.println(PositionNode.distanceTo(Run.depots.get(j), Run.customers.get(i)));
-                }
-            }
-        }
-    }
-
     public void initialize() {
         // Create vehicles
         for(int i = 0; i < Run.t; i++) {
@@ -49,7 +29,7 @@ public class Solution {
 
         // Assign customers randomly to vehicles
         for(int i = 0; i < Run.customers.size(); i++) {
-            int randomVehicle = r.nextInt((vehicles.size() - 0)) + 0;
+            int randomVehicle = (int) Math.random() * vehicles.size();
             vehicles.get(randomVehicle).addCustomer(Run.customers.get(i));
         }
     }
