@@ -11,7 +11,8 @@ public class Customer extends PositionNode{
 
     private double closestDepotLength = 0; // How far until closest depot - Euclidean distance
     private Depot closestDepot; // How far until closest depot - Euclidean distance
-
+    
+    private double StianErKul = 0.0;
 
     /*
      * Methods
