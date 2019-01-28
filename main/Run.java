@@ -23,7 +23,7 @@ public class Run  extends Application{
     // Start med random plassering i populasjonen
 
     public static void main(String[] args) {
-        Data.ReadData("./src/Data Files/p01");
+        Data.ReadData("./src/Data Files/p21");
 
         System.out.println("Maximum number of vehicles available:\t" + m);
         System.out.println("Total number of customers:\t\t" + n);
@@ -37,7 +37,7 @@ public class Run  extends Application{
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainScreen.fxml"));
         primaryStage.setTitle("MDVRP");
-        primaryStage.setScene(new Scene(root, 800, 500));
+        primaryStage.setScene(new Scene(root, 1400, 900));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
