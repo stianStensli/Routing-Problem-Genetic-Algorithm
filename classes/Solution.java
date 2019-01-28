@@ -9,6 +9,7 @@ public class Solution {
     ArrayList<Vehicle> vehicles = new ArrayList<>();
     double totalCost = 0; // Fitness score. Mulig ta 1/score
 
+    int numberOfC =0; //Control only! no other function
 
     public Solution() {
 
@@ -29,9 +30,26 @@ public class Solution {
 
         // Assign customers randomly to vehicles
         for(int i = 0; i < Run.customers.size(); i++) {
-            int randomVehicle = (int) Math.random() * vehicles.size();
-            vehicles.get(randomVehicle).addCustomer(Run.customers.get(i));
+            int randomVehicle = (int) (Math.random() * vehicles.size());
+            boolean added = vehicles.get(randomVehicle).addCustomer(Run.customers.get(i));
+
+            int j = 1;
+            while (!added){
+
+                int nextRandomVehicle = (randomVehicle + j) % vehicles.size();
+
+                if(nextRandomVehicle == randomVehicle){
+                    System.err.println("No Valid Solution found! This needs to be fixed!!!");
+                    break;
+                }
+                added = vehicles.get(nextRandomVehicle).addCustomer(Run.customers.get(i));
+
+
+                j++;
+            }
         }
+        calculateTotalCost();
+
     }
 
     public void addVehicle(Vehicle v) {
@@ -46,6 +64,18 @@ public class Solution {
     }
     public double getTotalCost() {
         return totalCost;
+    }
+
+
+    private void calculateTotalCost(){
+        totalCost = 0.0;
+        numberOfC = 0;
+        for(Vehicle v : vehicles){
+            totalCost += v.getRouteDuration();
+
+            numberOfC += v.getCustomers().size();
+        }
+        //System.out.println(numberOfC);
     }
 
 }

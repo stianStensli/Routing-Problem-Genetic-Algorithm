@@ -19,11 +19,16 @@ public class Vehicle {
      */
     public boolean addCustomer(Customer c) {
         if(validateCustomerEnd(c) ) {
-            rDurNoReturn += PositionNode.distanceTo(customers.get(customers.size()-1),c);
+            if(customers.size() == 0){
+                rDurNoReturn += PositionNode.distanceTo(startDepot, c);
+            }else {
+                rDurNoReturn += PositionNode.distanceTo(customers.get(customers.size() - 1), c);
+            }
             endDepot = c.getClosestDepot();
             currentLoad += c.getDemand();
 
             this.customers.add(c);
+
 
             return true;
         }

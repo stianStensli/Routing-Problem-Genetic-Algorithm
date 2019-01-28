@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import classes.Solution;
 
 public class EvaluationAlgorithm {
-    private static int popSize = 1;			// Population size
+    private static int popSize = 100;			// Population size
     private static int numOffsprings = 0;		// Number of offspring (antall barn generert)
     private static boolean survival = false;	// true=Elitism og false=Generational. I elitism så overlever foreldrene (the fittest) til neste generasjon
     private static double mp = 0.0;				// Muation probability pm (1/n) - (Mutation rate)
@@ -25,7 +25,7 @@ public class EvaluationAlgorithm {
         for(int i = 0; i < popSize; i++) {
             population.add(new Solution());
         }
-
+        System.out.println("Initialize population done. " + popSize + " random solutions found");
         // Calculate fitness score
 
         // While
