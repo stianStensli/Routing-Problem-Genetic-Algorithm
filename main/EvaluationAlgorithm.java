@@ -28,6 +28,10 @@ public class EvaluationAlgorithm {
         System.out.println("Initialize population done. " + popSize + " random solutions found");
         // Calculate fitness score
 
+        for(Solution s : population){
+            s.calculateTotalCost();
+        }
+
         // While
     }
 

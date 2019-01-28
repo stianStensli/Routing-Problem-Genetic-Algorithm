@@ -44,11 +44,9 @@ public class Solution {
                 }
                 added = vehicles.get(nextRandomVehicle).addCustomer(Run.customers.get(i));
 
-
                 j++;
             }
         }
-        calculateTotalCost();
 
     }
 
@@ -67,13 +65,13 @@ public class Solution {
     }
 
 
-    private void calculateTotalCost(){
+    public void calculateTotalCost(){
         totalCost = 0.0;
         numberOfC = 0;
         for(Vehicle v : vehicles){
             totalCost += v.getRouteDuration();
 
-            numberOfC += v.getCustomers().size();
+            //numberOfC += v.getCustomers().size();
         }
         //System.out.println(numberOfC);
     }
