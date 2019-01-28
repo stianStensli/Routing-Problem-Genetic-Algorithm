@@ -7,9 +7,8 @@ public class Customer extends PositionNode{
     private int id = 0; // Customer number
     private int duration = 0; // Necessary service duration required for this customer
     private int demand = 0; // Demand for this customer
-    
-    private double closestDepotLength = 0; // How far until closest depot - Euclidean distance
-    private Depot closestDepot; // How far until closest depot - Euclidean distance
+    private double closestDepotLength = 0; // How far until closest depot
+    private Depot closestDepot; // The closest depot
     
     /*
      * Methods
@@ -25,11 +24,11 @@ public class Customer extends PositionNode{
         double minDist = 0.0;
 
         for(Depot depot: Run.depots){
-            double dist= PositionNode.distanceTo(this, depot);
+            double dist = PositionNode.distanceTo(this, depot);
             if(closestDepot == null){
                 closestDepot = depot;
                 minDist = dist;
-            }else if(dist < minDist){
+            } else if(dist < minDist){
             	closestDepot = depot;
             	minDist = dist;
             }
@@ -46,7 +45,6 @@ public class Customer extends PositionNode{
     public void setId(int i) {
         this.id = i;
     }
-
     public int getDuration() {
         return duration;
     }
@@ -62,7 +60,6 @@ public class Customer extends PositionNode{
     public Depot getClosestDepot() {
         return closestDepot;
     }
-
     public double getClosestDepotLength() {
         return closestDepotLength;
     }

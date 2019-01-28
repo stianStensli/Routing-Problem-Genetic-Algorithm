@@ -21,15 +21,14 @@ public class Vehicle {
         if(validateCustomerEnd(c) ) {
             if(customers.size() == 0){
                 rDurNoReturn += PositionNode.distanceTo(startDepot, c);
-            }else {
+            } else {
                 rDurNoReturn += PositionNode.distanceTo(customers.get(customers.size() - 1), c);
             }
             endDepot = c.getClosestDepot();
             currentLoad += c.getDemand();
 
             this.customers.add(c);
-
-
+            
             return true;
         }
         return false;
@@ -41,7 +40,7 @@ public class Vehicle {
     }
 
     /**
-     * Checks if given customer can be added to the end of the current rout.
+     * Checks if given customer can be added to the end of the current route.
      * @return
      */
     public boolean validateCustomerEnd(Customer c){
@@ -52,7 +51,7 @@ public class Vehicle {
             double newLength = 0.0; // Lengden på den den nye ruten hvis c blir lagt til på slutten av ruten.
             if(customers.size() > 0){
                 newLength = rDurNoReturn + PositionNode.distanceTo(customers.get(customers.size()-1),c) + c.getClosestDepotLength();
-            }else {
+            } else {
                 newLength = rDurNoReturn + PositionNode.distanceTo(startDepot, c) + c.getClosestDepotLength();
             }
 

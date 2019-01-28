@@ -19,16 +19,13 @@ public class Run  extends Application{
 
     public static List<Depot> depots = new ArrayList<>();
     public static List<Customer> customers = new ArrayList<>();
-
-    // Start med random plassering i populasjonen
-
+    
     public static void main(String[] args) {
         Data.ReadData("./src/Data Files/p21");
 
         System.out.println("Maximum number of vehicles available:\t" + m);
         System.out.println("Total number of customers:\t\t" + n);
         System.out.println("Number of depots:\t\t\t" + t);
-
 
         launch(args);
     }

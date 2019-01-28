@@ -1,6 +1,9 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 
 import classes.Solution;
 
@@ -20,34 +23,44 @@ public class EvaluationAlgorithm {
      */
     public EvaluationAlgorithm() {
         // Initialize population
-        ArrayList<Solution> population = new ArrayList<>();
+        List<Solution> population = new ArrayList<>();
 
         for(int i = 0; i < popSize; i++) {
             population.add(new Solution());
         }
         System.out.println("Initialize population done. " + popSize + " random solutions found");
+        
         // Calculate fitness score
-
         for(Solution s : population){
             s.calculateTotalCost();
         }
-
-        // While
+        
+        // Sort population based on fitness score
+    	population.sort((s1, s2) -> Double.compare(s1.getTotalCost(), s2.getTotalCost()));
+        
+    	Solution bestSolution = population.get(0);
+    	
+        System.out.println(bestSolution.getTotalCost());
+        
+        tournamentSelection(population);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    /*
+     * Methods
+     */
+    public void tournamentSelection(List<Solution> population) {
+    	List<Solution> tournament = new ArrayList<>();
+    	
+    }
+    
+    public void crossover() {
+    	
+    }
+    
+    public void mutate() {
+    	
+    }
+    
     /*
      * Getters and Setters
      */

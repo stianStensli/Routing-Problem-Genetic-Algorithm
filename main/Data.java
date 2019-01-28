@@ -57,7 +57,7 @@ public class Data {
 
             bufferedReader.close();
 
-            //finalize the customers.
+            // Update customers and set nearest depot
             calculateClosestDepots();
         }
         catch(FileNotFoundException ex) {

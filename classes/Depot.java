@@ -28,7 +28,7 @@ public class Depot extends PositionNode{
     }
 
     public void setMaxDuration(int d) {
-        maxDuration = d;
+        this.maxDuration = d;
     }
 
     public int getMaxLoad() {
