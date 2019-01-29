@@ -52,7 +52,8 @@ public class EvaluationAlgorithm {
         System.out.println("Result: "+bestSolution.getTotalCost());
 
         tournamentSelection(population);
-
+        
+        ob.clear();
         ob.add(bestSolution);
 
     }

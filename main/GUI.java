@@ -190,8 +190,11 @@ public class GUI implements Initializable {
         ob.addListener(new ListChangeListener<Solution>() {
             @Override
             public void onChanged(javafx.collections.ListChangeListener.Change<? extends Solution> c) {
-                drawShapes();
-                drawPath(c.getList().get(c.getList().size()-1));
+                c.next();
+                if(c.wasAdded()){
+                    drawShapes();
+                    drawPath(c.getList().get(c.getList().size()-1));
+                }
             }
 
         });
