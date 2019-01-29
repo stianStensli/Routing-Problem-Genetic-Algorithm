@@ -65,6 +65,7 @@ public class GUI implements Initializable {
     public void changeFile(){
         Data.ReadData("./src/Data Files/"+cBox.getValue());
         calcRecSizeAndOffest();
+        drawShapes();
 
     }
     @FXML
