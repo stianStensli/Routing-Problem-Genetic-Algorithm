@@ -9,7 +9,10 @@ import classes.Customer;
 import classes.Depot;
 
 public class Data {
+
     public static void ReadData(String filename) {
+        clearOldValues();
+
         String line;
         int lineCounter = 0;
         int depotsCounter = 0;
@@ -72,4 +75,13 @@ public class Data {
             c.findNearestEndDepot();
         }
     }
+    private static void clearOldValues(){
+        Run.customers.clear();
+        Run.depots.clear();
+            Run.t = 0;
+            Run.m = 0;
+            Run.n = 0;
+
+    }
+
 }

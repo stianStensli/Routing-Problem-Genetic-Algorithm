@@ -4,15 +4,19 @@ import classes.Customer;
 import classes.Depot;
 import classes.PositionNode;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -21,6 +25,9 @@ public class GUI implements Initializable {
 
     @FXML
     private Canvas canvas;
+    @FXML
+    private ChoiceBox cBox;
+
     private Stage primaryStage;
     private GraphicsContext gc;
 
@@ -35,9 +42,35 @@ public class GUI implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         gc = canvas.getGraphicsContext2D();
         calcRecSizeAndOffest();
-        System.out.println(canvas.getHeight());
+
+        initChoiceBox();
     }
 
+    private void initChoiceBox() {
+        File folder = new File("./src/Data Files/");
+        File[] listOfFiles = folder.listFiles();
+
+        ObservableList<String> objects = FXCollections.observableArrayList();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                objects.add(listOfFiles[i].getName());
+                //System.out.println("File " + listOfFiles[i].getName());
+            } else if (listOfFiles[i].isDirectory()) {
+                //System.out.println("Directory " + listOfFiles[i].getName());
+            }
+        }
+        cBox.setItems(objects.sorted());
+        cBox.setValue(cBox.getItems().get(0));
+    }
+
+    @FXML
+    public void changeFile(){
+        System.out.println(cBox.getValue());
+        Data.ReadData("./src/Data Files/"+cBox.getValue());
+        calcRecSizeAndOffest();
+
+    }
     @FXML
     public void calculate(){
         EvaluationAlgorithm algorithm = new EvaluationAlgorithm();
