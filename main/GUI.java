@@ -2,15 +2,14 @@ package main;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-import classes.Customer;
-import classes.Depot;
-import classes.PositionNode;
-import classes.Vehicle;
+import classes.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,12 +36,14 @@ public class GUI implements Initializable {
     private double lineOffset;
 
     private double padding = 5;
+    private ObservableList<Solution> ob;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         gc = canvas.getGraphicsContext2D();
         calcRecSizeAndOffest();
 
+        initListener();
         initChoiceBox();
     }
 
@@ -70,9 +71,10 @@ public class GUI implements Initializable {
     }
     @FXML
     public void calculate(){
-        drawShapes();
         EvaluationAlgorithm algorithm = new EvaluationAlgorithm();
-        
+        algorithm.loadObservableList(ob);
+        algorithm.run();
+
         //Color colors[] = {Color.BLUE, Color.GREEN, Color.PURPLE, Color.BROWN, Color.ORANGE};
         gc.setLineWidth(2);
         Random r = new Random();
@@ -176,6 +178,20 @@ public class GUI implements Initializable {
         recSize = Math.min(recSize, (h-padding*2)/(maxY-minY+1));
         
         lineOffset = recSize / 2+padding;
+    }
+
+
+    public void initListener(){
+        ArrayList<Solution> intList = new ArrayList();
+
+        ob = FXCollections.observableArrayList(intList);
+        ob.addListener(new ListChangeListener<Solution>() {
+            @Override
+            public void onChanged(javafx.collections.ListChangeListener.Change<? extends Solution> c) {
+                drawShapes();
+            }
+
+        });
     }
 
 }

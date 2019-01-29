@@ -6,9 +6,10 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import classes.Solution;
+import javafx.collections.ObservableList;
 
 public class EvaluationAlgorithm {
-    private static int popSize = 1000;			// Population size
+    private static int popSize = 100;			// Population size
     private static int numOffsprings = 0;		// Number of offsprings
     private static boolean survival = false;	// true=Elitism and false=Generational. I elitism så overlever foreldrene (the fittest) til neste generasjon
     private static double mp = 0.0;				// Mutation probability pm (1/n) - (Mutation rate)
@@ -19,11 +20,17 @@ public class EvaluationAlgorithm {
     
     private static List<Solution> population;
     private static Solution bestSolution;
+
+    private ObservableList<Solution> ob;
     
     /*
      * Algorithm
      */
     public EvaluationAlgorithm() {
+
+    }
+
+    public void run(){
         // Initialize population
         population = new ArrayList<>();
 
@@ -32,21 +39,23 @@ public class EvaluationAlgorithm {
             population.add(new Solution());
         }
         System.out.println("Initialize population done. " + popSize + " random solutions found");
-        
+
         // Calculate fitness score
         for(Solution s : population){
             s.calculateTotalCost();
         }
-        
+
         // Sort population based on fitness score
-    	population.sort((s1, s2) -> Double.compare(s1.getTotalCost(), s2.getTotalCost()));
-        
-    	bestSolution = population.get(0);
+        population.sort((s1, s2) -> Double.compare(s1.getTotalCost(), s2.getTotalCost()));
+
+        bestSolution = population.get(0);
         System.out.println("Result: "+bestSolution.getTotalCost());
-        
+
         tournamentSelection(population);
+
+        ob.add(bestSolution);
+
     }
-    
     /*
      * Methods
      */
@@ -115,4 +124,9 @@ public class EvaluationAlgorithm {
 	public static Solution getBestSolution() {
 		return bestSolution;
 	}
+
+	public void loadObservableList(ObservableList<Solution> ob){
+        this.ob = ob;
+    }
+
 }
