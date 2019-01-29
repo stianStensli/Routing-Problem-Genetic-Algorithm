@@ -75,27 +75,6 @@ public class GUI implements Initializable {
         algorithm.loadObservableList(ob);
         algorithm.run();
 
-        //Color colors[] = {Color.BLUE, Color.GREEN, Color.PURPLE, Color.BROWN, Color.ORANGE};
-        gc.setLineWidth(2);
-        Random r = new Random();
-    	
-        for(Vehicle vehicle : algorithm.getBestSolution().getVehicles()) {
-        	gc.setStroke(Color.web( String.format("#%06x", r.nextInt(256*256*256)) ));
-        	
-        	int prevX = vehicle.getStartDepot().getX();
-        	int prevY = vehicle.getStartDepot().getY();
-        	
-        	for(Customer customer : vehicle.getCustomers()) {		
-        		gc.strokeLine((prevX+xOffset)*recSize+lineOffset, (prevY+yOffset)*recSize+lineOffset, (customer.getX()+xOffset)*recSize+lineOffset, (customer.getY()+yOffset)*recSize+lineOffset);
-        		
-        		prevX = customer.getX();
-        		prevY = customer.getY();
-        	}
-            if(vehicle.getEndDepot() == null){
-                System.out.println("whoops");
-            }
-        	gc.strokeLine((prevX+xOffset)*recSize+lineOffset, (prevY+yOffset)*recSize+lineOffset, (vehicle.getEndDepot().getX()+xOffset)*recSize+lineOffset, (vehicle.getEndDepot().getY()+yOffset)*recSize+lineOffset);
-        }
     }
 
     @FXML
@@ -114,6 +93,29 @@ public class GUI implements Initializable {
         for(int i = 0; i < Run.depots.size(); i++) {
             drawOval(Run.depots.get(i).getX(),Run.depots.get(i).getY());
             //gc.fillOval(Run.depots.get(i).getX()*10, Run.depots.get(i).getY()*10, 10, 10);
+        }
+    }
+
+    public void drawPath(Solution s){
+        for(Vehicle vehicle : s.getVehicles()) {
+            //Color colors[] = {Color.BLUE, Color.GREEN, Color.PURPLE, Color.BROWN, Color.ORANGE};
+            gc.setLineWidth(2);
+            Random r = new Random();
+            gc.setStroke(Color.web( String.format("#%06x", r.nextInt(256*256*256)) ));
+
+            int prevX = vehicle.getStartDepot().getX();
+            int prevY = vehicle.getStartDepot().getY();
+
+            for(Customer customer : vehicle.getCustomers()) {
+                gc.strokeLine((prevX+xOffset)*recSize+lineOffset, (prevY+yOffset)*recSize+lineOffset, (customer.getX()+xOffset)*recSize+lineOffset, (customer.getY()+yOffset)*recSize+lineOffset);
+
+                prevX = customer.getX();
+                prevY = customer.getY();
+            }
+            if(vehicle.getEndDepot() == null){
+                System.out.println("whoops");
+            }
+            gc.strokeLine((prevX+xOffset)*recSize+lineOffset, (prevY+yOffset)*recSize+lineOffset, (vehicle.getEndDepot().getX()+xOffset)*recSize+lineOffset, (vehicle.getEndDepot().getY()+yOffset)*recSize+lineOffset);
         }
     }
 
@@ -189,6 +191,7 @@ public class GUI implements Initializable {
             @Override
             public void onChanged(javafx.collections.ListChangeListener.Change<? extends Solution> c) {
                 drawShapes();
+                drawPath(c.getList().get(c.getList().size()-1));
             }
 
         });
