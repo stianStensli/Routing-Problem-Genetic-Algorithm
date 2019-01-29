@@ -78,18 +78,20 @@ public class Vehicle {
         }
 
         double newLength = 0.0;
-        if(startDepot.getMaxDuration() != 0){
-            if(customers.size() > 0){
-                newLength = getDistanceWithC(c,pos);
-            } else {
-                newLength = PositionNode.distanceTo(startDepot, c) + c.getClosestDepotLength();
-            }
 
-            //If new length is longer than the maximum size.
-            if(startDepot.getMaxDuration() < newLength){
-                return -1;
-            }
+        if(customers.size() > 0){
+            newLength = getDistanceWithC(c,pos);
+        } else {
+            newLength = PositionNode.distanceTo(startDepot, c) + c.getClosestDepotLength();
         }
+
+        //If new length is longer than the maximum size.
+        if(startDepot.getMaxDuration() == 0){
+            return newLength;
+        }else if(startDepot.getMaxDuration() < newLength){
+            return -1;
+        }
+
         return newLength;
 
     }

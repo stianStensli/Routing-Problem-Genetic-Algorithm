@@ -46,13 +46,13 @@ public class EvaluationAlgorithm {
         }
 
         // Sort population based on fitness score
-        population.sort((s1, s2) -> Double.compare(s1.getTotalCost(), s2.getTotalCost()));
+        Collections.sort(population);
 
         bestSolution = population.get(0);
         System.out.println("Result: "+bestSolution.getTotalCost());
 
         tournamentSelection(population);
-        
+
         ob.clear();
         ob.add(bestSolution);
 

@@ -102,10 +102,11 @@ public class Solution implements Comparable<Solution>{
             for(Vehicle v : vehicles){
                 nrCustomers += v.getCustomers().size();
             }
-        }
-        totalCost = 0.0;
-        for(Vehicle v : vehicles){
-            totalCost += v.getRouteDuration();
+        }else{
+            totalCost = 0.0;
+            for(Vehicle v : vehicles){
+                totalCost += v.getRouteDuration();
+            }
         }
     }
 
