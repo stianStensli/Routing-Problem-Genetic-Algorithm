@@ -17,7 +17,6 @@
                     <children>
                         <Label text="Options:" />
                         <Button mnemonicParsing="false" onAction="#calculate" text="calculate" />
-                  <Button mnemonicParsing="false" onAction="#drawShapes" text="Draw" />
                   <ChoiceBox prefWidth="150.0" fx:id="cBox" onAction="#changeFile"/>
                     </children>
                     <opaqueInsets>
