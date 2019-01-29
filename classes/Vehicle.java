@@ -12,6 +12,7 @@ public class Vehicle {
 
     public Vehicle(Depot startDepot) {
         this.startDepot = startDepot;
+        this.endDepot = startDepot;
     }
 
     /*

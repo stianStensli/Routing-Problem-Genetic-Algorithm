@@ -70,6 +70,7 @@ public class GUI implements Initializable {
     }
     @FXML
     public void calculate(){
+        drawShapes();
         EvaluationAlgorithm algorithm = new EvaluationAlgorithm();
         
         //Color colors[] = {Color.BLUE, Color.GREEN, Color.PURPLE, Color.BROWN, Color.ORANGE};
@@ -88,7 +89,9 @@ public class GUI implements Initializable {
         		prevX = customer.getX();
         		prevY = customer.getY();
         	}
-        	
+            if(vehicle.getEndDepot() == null){
+                System.out.println("whoops");
+            }
         	gc.strokeLine((prevX+xOffset)*recSize+lineOffset, (prevY+yOffset)*recSize+lineOffset, (vehicle.getEndDepot().getX()+xOffset)*recSize+lineOffset, (vehicle.getEndDepot().getY()+yOffset)*recSize+lineOffset);
         }
     }
