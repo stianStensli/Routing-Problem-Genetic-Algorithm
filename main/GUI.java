@@ -55,9 +55,6 @@ public class GUI implements Initializable {
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 objects.add(listOfFiles[i].getName());
-                //System.out.println("File " + listOfFiles[i].getName());
-            } else if (listOfFiles[i].isDirectory()) {
-                //System.out.println("Directory " + listOfFiles[i].getName());
             }
         }
         cBox.setItems(objects.sorted());
@@ -66,7 +63,6 @@ public class GUI implements Initializable {
 
     @FXML
     public void changeFile(){
-        System.out.println(cBox.getValue());
         Data.ReadData("./src/Data Files/"+cBox.getValue());
         calcRecSizeAndOffest();
 
