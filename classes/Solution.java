@@ -9,8 +9,6 @@ public class Solution {
     ArrayList<Vehicle> vehicles = new ArrayList<>();
     double totalCost = 0; // Fitness score. Mulig ta 1/score
 
-    int numberOfC = 0; //Control only! no other function
-
     public Solution() {
         initialize();
     }
@@ -57,13 +55,9 @@ public class Solution {
     
     public void calculateTotalCost(){
         totalCost = 0.0;
-        numberOfC = 0;
         for(Vehicle v : vehicles){
             totalCost += v.getRouteDuration();
-
-            numberOfC += v.getCustomers().size();
         }
-        System.out.println(numberOfC);
     }
 
     /*

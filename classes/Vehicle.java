@@ -7,7 +7,7 @@ public class Vehicle {
     private Depot startDepot;
     private Depot endDepot = null;
     private int currentLoad = 0;
-    private double rDurNoReturn = 0.0; //route duration to the Final Costomer, but not including to end depot
+    private double rDurNoReturn = 0.0; // Route duration to Final Customer. Does not include end depot
     private ArrayList<Customer> customers = new ArrayList<>();
 
     public Vehicle(Depot startDepot) {

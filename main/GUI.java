@@ -1,25 +1,24 @@
 package main;
 
+import java.io.File;
+import java.net.URL;
+import java.util.List;
+import java.util.Random;
+import java.util.ResourceBundle;
+
 import classes.Customer;
 import classes.Depot;
 import classes.PositionNode;
-import javafx.application.Application;
+import classes.Vehicle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
 
 public class GUI implements Initializable {
 
@@ -35,8 +34,9 @@ public class GUI implements Initializable {
     private double yOffset;
 
     private double recSize;
+    private double lineOffset;
 
-    private double padding = 6;
+    private double padding = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -71,28 +71,45 @@ public class GUI implements Initializable {
     @FXML
     public void calculate(){
         EvaluationAlgorithm algorithm = new EvaluationAlgorithm();
+        
+        //Color colors[] = {Color.BLUE, Color.GREEN, Color.PURPLE, Color.BROWN, Color.ORANGE};
+        gc.setLineWidth(2);
+        Random r = new Random();
+    	
+        for(Vehicle vehicle : algorithm.getBestSolution().getVehicles()) {
+        	gc.setStroke(Color.web( String.format("#%06x", r.nextInt(256*256*256)) ));
+        	
+        	int prevX = vehicle.getStartDepot().getX();
+        	int prevY = vehicle.getStartDepot().getY();
+        	
+        	for(Customer customer : vehicle.getCustomers()) {		
+        		gc.strokeLine((prevX+xOffset)*recSize+lineOffset, (prevY+yOffset)*recSize+lineOffset, (customer.getX()+xOffset)*recSize+lineOffset, (customer.getY()+yOffset)*recSize+lineOffset);
+        		
+        		prevX = customer.getX();
+        		prevY = customer.getY();
+        	}
+        	
+        	gc.strokeLine((prevX+xOffset)*recSize+lineOffset, (prevY+yOffset)*recSize+lineOffset, (vehicle.getEndDepot().getX()+xOffset)*recSize+lineOffset, (vehicle.getEndDepot().getY()+yOffset)*recSize+lineOffset);
+        }
     }
 
     @FXML
     public void drawShapes() {
-        // Draw depots
         gc.clearRect(0,0,canvas.getWidth(),canvas.getHeight());
-
+        
+        // Draw customers
         gc.setFill(Color.web("BLACK"));
         for(int i = 0; i < Run.customers.size(); i++) {
             drawRec(Run.customers.get(i).getX(),Run.customers.get(i).getY());
             //gc.fillOval(Run.customers.get(i).getX()*10, Run.customers.get(i).getY()*10, 10, 10);
         }
-
+        
+        // Draw depots
         gc.setFill(Color.web("RED"));
         for(int i = 0; i < Run.depots.size(); i++) {
-            //gc.fillOval(Run.depots.get(i).getX()*10, Run.depots.get(i).getY()*10, 10, 10);
             drawOval(Run.depots.get(i).getX(),Run.depots.get(i).getY());
+            //gc.fillOval(Run.depots.get(i).getX()*10, Run.depots.get(i).getY()*10, 10, 10);
         }
-
-        // Draw customers
-
-
     }
 
     public void setStage(Stage stage) {
@@ -104,6 +121,9 @@ public class GUI implements Initializable {
     }
     private void drawOval(int x, int y){
         gc.fillOval((x+xOffset)*recSize,(y+yOffset)*recSize,recSize,recSize);
+    }
+    private void drawLine(PositionNode p1, PositionNode p2){
+        gc.strokeLine(40, 10, 10, 40);
     }
 
     private void calcRecSizeAndOffest(){
@@ -151,7 +171,8 @@ public class GUI implements Initializable {
 
         recSize = (w-padding)/(maxX-minX);
         recSize = Math.min(recSize, (h-padding)/(maxY-minY));
-
+        
+        lineOffset = recSize / 2;
     }
 
 }

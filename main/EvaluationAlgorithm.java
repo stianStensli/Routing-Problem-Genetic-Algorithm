@@ -9,21 +9,23 @@ import classes.Solution;
 
 public class EvaluationAlgorithm {
     private static int popSize = 100;			// Population size
-    private static int numOffsprings = 0;		// Number of offspring (antall barn generert)
-    private static boolean survival = false;	// true=Elitism og false=Generational. I elitism så overlever foreldrene (the fittest) til neste generasjon
-    private static double mp = 0.0;				// Muation probability pm (1/n) - (Mutation rate)
-    // Må håndteres annerledes i Elitism
+    private static int numOffsprings = 0;		// Number of offsprings
+    private static boolean survival = false;	// true=Elitism and false=Generational. I elitism så overlever foreldrene (the fittest) til neste generasjon
+    private static double mp = 0.0;				// Mutation probability pm (1/n) - (Mutation rate)
     private static double recombProbability = 0.7; // For hver forelder som blir valgt, er det 70% sjanse for at det blir gjort en crossover, og 30% at det blir en kopi av forelder
     private static int maxRuns = 0;				// Maximum number of runs before termination
-    private static int tournamentSize = 5;		// How many random picks from population
+    private static int tournamentSize = 5;		// Number of individuals to choose from population at random
     // Eventuelt legge til "No improvement in the last 25 generations"
-
+    
+    private static List<Solution> population;
+    private static Solution bestSolution;
+    
     /*
      * Algorithm
      */
     public EvaluationAlgorithm() {
         // Initialize population
-        List<Solution> population = new ArrayList<>();
+        population = new ArrayList<>();
 
         for(int i = 0; i < popSize; i++) {
             population.add(new Solution());
@@ -38,7 +40,7 @@ public class EvaluationAlgorithm {
         // Sort population based on fitness score
     	population.sort((s1, s2) -> Double.compare(s1.getTotalCost(), s2.getTotalCost()));
         
-    	Solution bestSolution = population.get(0);
+    	bestSolution = population.get(0);
     	
         System.out.println(bestSolution.getTotalCost());
         
@@ -106,4 +108,11 @@ public class EvaluationAlgorithm {
     public void setTournamentSize(int tournamentSize) {
         this.tournamentSize = tournamentSize;
     }
+
+	public static List<Solution> getPopulation() {
+		return population;
+	}
+	public static Solution getBestSolution() {
+		return bestSolution;
+	}
 }
