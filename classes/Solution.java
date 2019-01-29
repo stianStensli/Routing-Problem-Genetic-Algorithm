@@ -61,9 +61,9 @@ public class Solution {
         for(Vehicle v : vehicles){
             totalCost += v.getRouteDuration();
 
-            //numberOfC += v.getCustomers().size();
+            numberOfC += v.getCustomers().size();
         }
-        //System.out.println(numberOfC);
+        System.out.println(numberOfC);
     }
 
     /*

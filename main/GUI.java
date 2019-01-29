@@ -57,7 +57,7 @@ public class GUI implements Initializable {
         gc.setFill(Color.web("RED"));
         for(int i = 0; i < Run.depots.size(); i++) {
             //gc.fillOval(Run.depots.get(i).getX()*10, Run.depots.get(i).getY()*10, 10, 10);
-            drawOval(Run.customers.get(i).getX(),Run.customers.get(i).getY());
+            drawOval(Run.depots.get(i).getX(),Run.depots.get(i).getY());
         }
 
         // Draw customers

@@ -41,11 +41,11 @@ public class Data {
                     Run.depots.add(new Depot(sLine[0], sLine[1]));
                 }
                 // Read data about customers into an array
-                else if(lineCounter <= Run.n) {
+                else if(lineCounter <= (Run.n + Run.t)) {
                     Run.customers.add(new Customer(sLine[0], sLine[1], sLine[2], sLine[3], sLine[4]));
                 }
                 // Update data about depots
-                else if(lineCounter <= (Run.n + Run.t)) {
+                else {
                     Run.depots.get(depotsCounter).setId(sLine[0]);
                     Run.depots.get(depotsCounter).setX(sLine[1]);
                     Run.depots.get(depotsCounter).setY(sLine[2]);

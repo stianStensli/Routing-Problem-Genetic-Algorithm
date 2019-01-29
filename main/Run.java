@@ -26,7 +26,7 @@ public class Run  extends Application{
         System.out.println("Maximum number of vehicles available:\t" + m);
         System.out.println("Total number of customers:\t\t" + n);
         System.out.println("Number of depots:\t\t\t" + t);
-
+                
         launch(args);
     }
 
