@@ -19,6 +19,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import static java.lang.Thread.State.*;
+
 public class GUI implements Initializable {
 
     @FXML
@@ -37,6 +39,7 @@ public class GUI implements Initializable {
 
     private double padding = 5;
     private ObservableList<Solution> ob;
+    Thread calcThread;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -45,8 +48,18 @@ public class GUI implements Initializable {
 
         initListener();
         initChoiceBox();
+        initThread();
     }
+    private void initThread(){
+        calcThread = new Thread(new Runnable() {
+        public void run() {
+            EvaluationAlgorithm algorithm = new EvaluationAlgorithm();
+            algorithm.loadObservableList(ob);
+            algorithm.run();
+        }
+    });
 
+    }
     private void initChoiceBox() {
         File folder = new File("./src/Data Files/");
         File[] listOfFiles = folder.listFiles();
@@ -71,9 +84,12 @@ public class GUI implements Initializable {
     }
     @FXML
     public void calculate(){
-        EvaluationAlgorithm algorithm = new EvaluationAlgorithm();
-        algorithm.loadObservableList(ob);
-        algorithm.run();
+        if(calcThread.getState() == NEW)
+            calcThread.start();
+        if(calcThread.getState() == TERMINATED){
+            initThread();
+            calcThread.start();
+        }
 
     }
 
