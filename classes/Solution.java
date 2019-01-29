@@ -4,15 +4,45 @@ import java.util.ArrayList;
 
 import main.Run;
 
-public class Solution {
+public class Solution implements Comparable<Solution>{
 
     ArrayList<Vehicle> vehicles = new ArrayList<>();
+
+    boolean valid = true;
     double totalCost = 0; // Fitness score. Mulig ta 1/score
+    int nrCustomers = 0;
 
     public Solution() {
         initialize();
     }
 
+    @Override
+    public int compareTo(Solution comp) {
+        if(comp.valid && this.valid){
+            if(comp.totalCost > this.totalCost){
+                return -1;
+            }else if(comp.totalCost == this.totalCost){
+                return 0;
+            }else{
+                return 1;
+            }
+        }
+
+        if(comp.valid){
+            return -1;
+        }
+        if(this.valid){
+            return 1;
+        }
+
+        if(comp.nrCustomers > this.nrCustomers){
+            return -1;
+        }else if(comp.nrCustomers == this.nrCustomers){
+            return 0;
+        }else{
+            return 1;
+        }
+    }
     /*
      * Methods
      */
@@ -26,25 +56,38 @@ public class Solution {
 
         // Assign customers randomly to vehicles
         for(int i = 0; i < Run.customers.size(); i++) {
-            int randomVehicle = (int) (Math.random() * vehicles.size());
-            boolean added = vehicles.get(randomVehicle).addCustomer(Run.customers.get(i));
-            
-            /*
-             * If customer couldn't be assigned to the first found vehicle,
-             * keep trying other vehicles until the customer is assigned to one
-             */
-            int j = 1;
-            while (!added){
-                int nextRandomVehicle = (randomVehicle + j) % vehicles.size();
+            Vehicle tempVehicle = null;
+            Customer c = Run.customers.get(i);
 
-                if(nextRandomVehicle == randomVehicle){
-                    System.err.println("No Valid Solution found! This needs to be fixed!!!");
-                    break;
-                }
-                added = vehicles.get(nextRandomVehicle).addCustomer(Run.customers.get(i));
+            Depot closestDepot = c.getClosestDepot();
 
-                j++;
+            double minAddedDistance = Double.MAX_VALUE;
+            int index = -1;
+            for(Vehicle v : vehicles){
+                //if(v.getStartDepot().equals(closestDepot)){
+                        double[] newDist = v.getMinDistanceWithC(c);
+                        if(newDist[1] != -1){
+                            if(minAddedDistance > newDist[0]){
+                                minAddedDistance = newDist[0];
+                                index = (int)newDist[1];
+                                tempVehicle = v;
+
+                            }
+                        }
+                    }
+
+                //}
+
+            if (tempVehicle == null){
+
+                //System.err.println("No Valid Solution found! This needs to be fixed!!!");
+                valid = false;
+                totalCost = Double.MAX_VALUE;
+
+            }else{
+                tempVehicle.addCustomer(c,index);
             }
+
         }
 
     }
@@ -54,6 +97,12 @@ public class Solution {
     }
     
     public void calculateTotalCost(){
+        if(!valid ){
+            nrCustomers = 0;
+            for(Vehicle v : vehicles){
+                nrCustomers += v.getCustomers().size();
+            }
+        }
         totalCost = 0.0;
         for(Vehicle v : vehicles){
             totalCost += v.getRouteDuration();
@@ -69,4 +118,6 @@ public class Solution {
     public double getTotalCost() {
         return totalCost;
     }
+
+
 }

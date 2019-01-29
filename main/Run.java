@@ -35,7 +35,7 @@ public class Run  extends Application{
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainScreen.fxml"));
         primaryStage.setTitle("MDVRP");
         primaryStage.setScene(new Scene(root, 1400, 900));
-        primaryStage.setResizable(false);
+
         primaryStage.show();
     }
 }

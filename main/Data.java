@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collections;
 
 import classes.Customer;
 import classes.Depot;
@@ -62,6 +63,7 @@ public class Data {
 
             // Update customers and set nearest depot
             calculateClosestDepots();
+
         }
         catch(FileNotFoundException ex) {
             System.out.println("Couldn't find file");

@@ -63,4 +63,5 @@ public class Customer extends PositionNode{
     public double getClosestDepotLength() {
         return closestDepotLength;
     }
+
 }

@@ -36,7 +36,7 @@ public class GUI implements Initializable {
     private double recSize;
     private double lineOffset;
 
-    private double padding = 0;
+    private double padding = 5;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -120,10 +120,10 @@ public class GUI implements Initializable {
     }
 
     private void drawRec(int x, int y){
-        gc.fillRect((x+xOffset)*recSize,(y+yOffset)*recSize,recSize,recSize);
+        gc.fillRect((x+xOffset)*recSize+padding,(y+yOffset)*recSize+padding,recSize,recSize);
     }
     private void drawOval(int x, int y){
-        gc.fillOval((x+xOffset)*recSize,(y+yOffset)*recSize,recSize,recSize);
+        gc.fillOval((x+xOffset)*recSize+padding,(y+yOffset)*recSize+padding,recSize,recSize);
     }
     private void drawLine(PositionNode p1, PositionNode p2){
         gc.strokeLine(40, 10, 10, 40);
@@ -169,13 +169,13 @@ public class GUI implements Initializable {
             maxY = Math.max(y,maxY);
         }
 
-        xOffset = -minX+padding/2;
-        yOffset = -minY+padding/2;
+        xOffset = -minX;
+        yOffset = -minY;
 
-        recSize = (w-padding)/(maxX-minX);
-        recSize = Math.min(recSize, (h-padding)/(maxY-minY));
+        recSize = (w-padding*2)/(maxX-minX+1);
+        recSize = Math.min(recSize, (h-padding*2)/(maxY-minY+1));
         
-        lineOffset = recSize / 2;
+        lineOffset = recSize / 2+padding;
     }
 
 }
