@@ -135,6 +135,7 @@ public class Vehicle {
         duration = calcRouteDuration();
 
     }
+
     public double[] getMinDistanceWithC(Customer c){
         double minDistance = Double.MAX_VALUE;
         double index = -1;
@@ -152,6 +153,17 @@ public class Vehicle {
         return new double[]{minDistance, index};
     }
 
+    public ArrayList<Customer> forceFitC(Customer c){
+        return forceFitC(c, null);
+    }
+
+    //NotInUse are nodes that are not currently in any solution.
+    public ArrayList<Customer> forceFitC(Customer c, ArrayList<Customer> notInUse){
+
+
+
+        return null;
+    }
     private double calcRouteDuration(){
         double distance = 0.0;
         if(customers.size() == 0){
