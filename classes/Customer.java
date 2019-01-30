@@ -9,7 +9,10 @@ public class Customer extends PositionNode{
     private int demand = 0; // Demand for this customer
     private double closestDepotLength = 0; // How far until closest depot
     private Depot closestDepot; // The closest depot
-    
+
+    private Customer closestCustomer; // The closest customer
+
+
     /*
      * Methods
      */

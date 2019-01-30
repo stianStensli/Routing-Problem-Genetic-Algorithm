@@ -7,8 +7,9 @@ import main.Run;
 public class Solution implements Comparable<Solution>{
 
     ArrayList<Vehicle> vehicles = new ArrayList<>();
+    ArrayList<Customer> notPlanced = new ArrayList<>();
 
-    boolean valid = true;
+    public boolean valid = true;
     double totalCost = 0; // Fitness score. Mulig ta 1/score
     int nrCustomers = 0;
 
@@ -64,33 +65,48 @@ public class Solution implements Comparable<Solution>{
             double minAddedDistance = Double.MAX_VALUE;
             int index = -1;
             for(Vehicle v : vehicles){
-                //if(v.getStartDepot().equals(closestDepot)){
-                        double[] newDist = v.getMinDistanceWithC(c);
-                        if(newDist[1] != -1){
-                            if(minAddedDistance > newDist[0]){
-                                minAddedDistance = newDist[0];
-                                index = (int)newDist[1];
-                                tempVehicle = v;
+                    double[] newDist = v.getMinDistanceWithC(c);
+                    if(newDist[1] != -1){
+                        if(minAddedDistance > newDist[0]){
+                            minAddedDistance = newDist[0];
+                            index = (int)newDist[1];
+                            tempVehicle = v;
 
-                            }
                         }
                     }
+            }
 
-                //}
 
             if (tempVehicle == null){
 
                 //System.err.println("No Valid Solution found! This needs to be fixed!!!");
+                notPlanced.add(c);
                 valid = false;
                 totalCost = Double.MAX_VALUE;
 
             }else{
                 tempVehicle.addCustomer(c,index);
             }
+        }
+        /*
+        if(!valid){
+            makeValid();
+        }
+        */
+    }
 
+    public void makeValid(){
+        int itr = 0;
+        while (notPlanced.size() != 0 && itr < 50){
+            int rIndex = (int) (Math.random()*notPlanced.size());
+
+
+
+            itr++;
         }
 
     }
+
 
     public void addVehicle(Vehicle v) {
         this.vehicles.add(v);
@@ -109,6 +125,7 @@ public class Solution implements Comparable<Solution>{
             }
         }
     }
+
 
     /*
      * Getters and Setters

@@ -9,7 +9,7 @@ import classes.Solution;
 import javafx.collections.ObservableList;
 
 public class EvaluationAlgorithm {
-    private static int popSize = 100;			// Population size
+    private static int popSize = 1;			// Population size
     private static int numOffsprings = 0;		// Number of offsprings
     private static boolean survival = false;	// true=Elitism and false=Generational. I elitism så overlever foreldrene (the fittest) til neste generasjon
     private static double mp = 0.0;				// Mutation probability pm (1/n) - (Mutation rate)
@@ -50,6 +50,13 @@ public class EvaluationAlgorithm {
 
         bestSolution = population.get(0);
         System.out.println("Result: "+bestSolution.getTotalCost());
+        
+        while(!bestSolution.valid){
+            bestSolution.makeValid();
+            ob.clear();
+            ob.add(bestSolution);
+
+        }
 
         tournamentSelection(population);
 
