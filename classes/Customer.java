@@ -11,6 +11,7 @@ public class Customer extends PositionNode{
     private Depot closestDepot; // The closest depot
 
     private Customer closestCustomer; // The closest customer
+    private double closestCustomerLength = 0; // How far until closest Customer
 
 
     /*
@@ -39,6 +40,24 @@ public class Customer extends PositionNode{
         closestDepotLength = minDist;
     }
 
+    public void findNearestEndCustomer() {
+        double minDist = 0.0;
+
+        for(Customer c: Run.customers){
+            if(!c.equals(this)) {
+                double dist = PositionNode.distanceTo(this, c);
+                if (closestCustomer == null) {
+                    closestCustomer = c;
+                    minDist = dist;
+                } else if (dist < minDist) {
+                    closestCustomer = c;
+                    minDist = dist;
+                }
+            }
+        }
+        closestCustomerLength = minDist;
+
+    }
     /*
      * Getters and Setters
      */

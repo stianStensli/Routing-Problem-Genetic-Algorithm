@@ -63,6 +63,7 @@ public class Data {
 
             // Update customers and set nearest depot
             calculateClosestDepots();
+            calculateClosestCustomer();
 
         }
         catch(FileNotFoundException ex) {
@@ -75,6 +76,12 @@ public class Data {
     private static void calculateClosestDepots(){
         for(Customer c : Run.customers){
             c.findNearestEndDepot();
+        }
+    }
+
+    private static void calculateClosestCustomer(){
+        for(Customer c : Run.customers){
+            c.findNearestEndCustomer();
         }
     }
     private static void clearOldValues(){

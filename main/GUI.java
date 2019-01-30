@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 import classes.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -208,8 +209,15 @@ public class GUI implements Initializable {
             public void onChanged(javafx.collections.ListChangeListener.Change<? extends Solution> c) {
                 c.next();
                 if(c.wasAdded()){
-                    drawShapes();
-                    drawPath(c.getList().get(c.getList().size()-1));
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            drawShapes();
+                            drawPath(c.getList().get(c.getList().size()-1));
+
+                        }
+                    });
+
                 }
             }
 

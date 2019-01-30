@@ -50,7 +50,7 @@ public class EvaluationAlgorithm {
 
         bestSolution = population.get(0);
         System.out.println("Result: "+bestSolution.getTotalCost());
-        
+
         while(!bestSolution.valid){
             bestSolution.makeValid();
             ob.clear();
