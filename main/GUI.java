@@ -213,11 +213,11 @@ public class GUI implements Initializable {
                         @Override
                         public void run() {
                             drawShapes();
-                            drawPath(c.getList().get(c.getList().size()-1));
-
+                            if(c.getList().size() != 0){
+                                drawPath(c.getList().get(c.getList().size()-1));
+                            }
                         }
                     });
-
                 }
             }
 
