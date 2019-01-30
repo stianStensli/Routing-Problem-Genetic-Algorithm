@@ -28,6 +28,7 @@ public class Vehicle {
             customers.add(pos, c);
 
             duration = newDist;
+            currentLoad += c.getDemand();
             endDepot = customers.get(customers.size() - 1).getClosestDepot();
             return true;
         }
@@ -127,6 +128,13 @@ public class Vehicle {
             return duration;
     }
 
+    public void removeCustomer(Customer c){
+        customers.remove(c);
+        endDepot = customers.get(customers.size() - 1).getClosestDepot();
+
+        duration = calcRouteDuration();
+
+    }
     public double[] getMinDistanceWithC(Customer c){
         double minDistance = Double.MAX_VALUE;
         double index = -1;
@@ -142,5 +150,22 @@ public class Vehicle {
         }
 
         return new double[]{minDistance, index};
+    }
+
+    private double calcRouteDuration(){
+        double distance = 0.0;
+        if(customers.size() == 0){
+            return distance;
+        }
+
+        distance += PositionNode.distanceTo(customers.get(0),startDepot);
+        for(int i = 1; i < customers.size(); i++){
+            distance += PositionNode.distanceTo(customers.get(i),customers.get(i-1));
+
+        }
+        distance += customers.get(customers.size()-1).getClosestDepotLength();
+
+        return distance;
+
     }
 }
