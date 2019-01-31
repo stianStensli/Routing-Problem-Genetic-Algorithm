@@ -20,8 +20,8 @@ public class EvaluationAlgorithm {
     
     private static ArrayList<Solution> population;
     private static Solution bestSolution;
-
     private ArrayList<Solution> ob;
+    Random r = new Random();
     
     /*
      * Algorithm

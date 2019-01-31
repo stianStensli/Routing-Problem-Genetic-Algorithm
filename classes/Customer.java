@@ -64,7 +64,6 @@ public class Customer extends PositionNode{
         closestCustomerLength = minDist;
     }
 
-    }
     public Customer getClosestCustomer(ArrayList<Customer> notPlanced) {
         double minDist = 0.0;
         Customer closeC = null;

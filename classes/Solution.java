@@ -98,22 +98,22 @@ public class Solution implements Comparable<Solution>{
 
     public void makeValid(){
         int itr = 0;
-        while (notPlanced.size() != 0 && itr < 1){
-            int rIndex = (int) (Math.random()*notPlanced.size());
-            Customer temp = notPlanced.get(rIndex);
+        while (notPlaced.size() != 0 && itr < 1){
+            int rIndex = (int) (Math.random()*notPlaced.size());
+            Customer temp = notPlaced.get(rIndex);
             Customer closestInVehicle = temp.getClosestCustomer();
-            if(notPlanced.contains(closestInVehicle)){
-                closestInVehicle = temp.getClosestCustomer(notPlanced);
+            if(notPlaced.contains(closestInVehicle)){
+                closestInVehicle = temp.getClosestCustomer(notPlaced);
             }
 
             for(Vehicle v : vehicles){
                 if(v.getCustomers().contains(closestInVehicle)){
-                    ArrayList<Customer> adding = v.forceFitC(temp, notPlanced);
+                    ArrayList<Customer> adding = v.forceFitC(temp, notPlaced);
                     if(adding != null){
                     for(Customer a : adding){
-                        notPlanced.add(a);
+                        notPlaced.add(a);
                     }
-                    notPlanced.remove(temp);
+                    notPlaced.remove(temp);
                     break;
                     }
                 }
