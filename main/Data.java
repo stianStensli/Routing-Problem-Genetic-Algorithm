@@ -81,7 +81,7 @@ public class Data {
 
     private static void calculateClosestCustomer(){
         for(Customer c : Run.customers){
-            c.findNearestEndCustomer();
+            c.findNearestCustomer();
         }
     }
     private static void clearOldValues(){

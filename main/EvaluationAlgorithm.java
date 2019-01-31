@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import classes.Solution;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
 public class EvaluationAlgorithm {
@@ -21,7 +23,7 @@ public class EvaluationAlgorithm {
     private static List<Solution> population;
     private static Solution bestSolution;
 
-    private ObservableList<Solution> ob;
+    private ArrayList<Solution> ob;
     
     /*
      * Algorithm
@@ -53,14 +55,17 @@ public class EvaluationAlgorithm {
 
         while(!bestSolution.valid){
             bestSolution.makeValid();
-            ob.clear();
-            ob.add(bestSolution);
+            //Platform.runLater(new Runnable() {
+              //  @Override
+                //public void run() {
+                   // ob.add(bestSolution);
+                //}
+            //});
 
         }
 
         tournamentSelection(population);
 
-        ob.clear();
         ob.add(bestSolution);
 
     }
@@ -133,7 +138,7 @@ public class EvaluationAlgorithm {
 		return bestSolution;
 	}
 
-	public void loadObservableList(ObservableList<Solution> ob){
+	public void loadObservableList(ArrayList<Solution> ob){
         this.ob = ob;
     }
 

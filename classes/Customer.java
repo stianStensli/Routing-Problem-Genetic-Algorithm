@@ -2,6 +2,8 @@ package classes;
 
 import main.Run;
 
+import java.util.ArrayList;
+
 public class Customer extends PositionNode{
 
     private int id = 0; // Customer number
@@ -9,6 +11,7 @@ public class Customer extends PositionNode{
     private int demand = 0; // Demand for this customer
     private double closestDepotLength = 0; // How far until closest depot
     private Depot closestDepot; // The closest depot
+
 
     private Customer closestCustomer; // The closest customer
     private double closestCustomerLength = 0; // How far until closest Customer
@@ -40,7 +43,7 @@ public class Customer extends PositionNode{
         closestDepotLength = minDist;
     }
 
-    public void findNearestEndCustomer() {
+    public void findNearestCustomer() {
         double minDist = 0.0;
 
         for(Customer c: Run.customers){
@@ -57,6 +60,23 @@ public class Customer extends PositionNode{
         }
         closestCustomerLength = minDist;
 
+    }
+    public Customer getClosestCustomer(ArrayList<Customer> notPlanced) {
+        double minDist = 0.0;
+        Customer closeC = null;
+        for(Customer c: Run.customers){
+            if(!c.equals(this) && !notPlanced.contains(c)) {
+                double dist = PositionNode.distanceTo(this, c);
+                if (closeC == null) {
+                    closeC = c;
+                    minDist = dist;
+                } else if (dist < minDist) {
+                    closeC = c;
+                    minDist = dist;
+                }
+            }
+        }
+        return closeC;
     }
     /*
      * Getters and Setters
@@ -85,5 +105,13 @@ public class Customer extends PositionNode{
     public double getClosestDepotLength() {
         return closestDepotLength;
     }
+    public Customer getClosestCustomer() {
+        return closestCustomer;
+    }
+
+    public double getClosestCustomerLength() {
+        return closestCustomerLength;
+    }
+
 
 }

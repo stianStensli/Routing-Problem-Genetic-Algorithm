@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 import classes.*;
+import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -39,7 +40,9 @@ public class GUI implements Initializable {
     private double lineOffset;
 
     private double padding = 5;
-    private ObservableList<Solution> ob;
+    ArrayList<Solution> intList = new ArrayList();
+    Solution bestSolution;
+
     Thread calcThread;
 
     @Override
@@ -55,7 +58,7 @@ public class GUI implements Initializable {
         calcThread = new Thread(new Runnable() {
         public void run() {
             EvaluationAlgorithm algorithm = new EvaluationAlgorithm();
-            algorithm.loadObservableList(ob);
+            algorithm.loadObservableList(intList);
             algorithm.run();
         }
     });
@@ -200,10 +203,12 @@ public class GUI implements Initializable {
     }
 
 
-    public void initListener(){
-        ArrayList<Solution> intList = new ArrayList();
 
-        ob = FXCollections.observableArrayList(intList);
+    public void initListener(){
+        intList = new ArrayList();
+
+    /*
+
         ob.addListener(new ListChangeListener<Solution>() {
             @Override
             public void onChanged(javafx.collections.ListChangeListener.Change<? extends Solution> c) {
@@ -221,7 +226,19 @@ public class GUI implements Initializable {
                 }
             }
 
-        });
+        });*/
+        new AnimationTimer()
+        {
+            public void handle(long currentNanoTime)
+            {
+                if(intList.size() > 0){
+                    bestSolution = intList.get(intList.size()-1);
+                    intList.clear();
+                    drawShapes();
+                    drawPath(bestSolution);
+                }
+            }
+        }.start();
     }
 
 }
