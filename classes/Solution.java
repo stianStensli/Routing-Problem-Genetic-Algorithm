@@ -34,10 +34,10 @@ public class Solution implements Comparable<Solution>{
         }
 
         if(comp.valid){
-            return -1;
+            return 1;
         }
         if(this.valid){
-            return 1;
+            return -1;
         }
 
         if(comp.nrCustomers > this.nrCustomers){
@@ -89,14 +89,38 @@ public class Solution implements Comparable<Solution>{
                 tempVehicle.addCustomer(c,index);
             }
         }
-        /*
+
         if(!valid){
-            makeValid();
+            repair();
         }
-        */
+
     }
 
-    public void makeValid(){
+    public void repair(){
+        int itr = 0;
+        while (!valid && itr < 9999) {
+            if(notPlaced.size() == 0){
+                valid = true;
+            }else{
+                ArrayList<Vehicle> inValid = placeRemaining();
+                makeValid(inValid);
+            }
+            itr++;
+        }
+        if(valid){
+            System.out.println("Success");
+        }else {
+            System.out.println("Uhhh");
+            valid = false;
+        }
+        calculateTotalCost();
+
+
+    }
+
+    private  ArrayList<Vehicle> placeRemaining(){
+        ArrayList<Vehicle> invalid = new ArrayList<>();
+
         int itr = 0;
 
         while (notPlaced.size() != 0 && itr < 1000){
@@ -115,14 +139,29 @@ public class Solution implements Comparable<Solution>{
             if(addTo == null){
                 System.err.println("ERROR! Solution make Valid");
             }else{
-                addTo.forceFitC(c);
+                boolean validForce = addTo.forceFitC(c);
                 notPlaced.remove(c);
-            }
 
+                if(!validForce && !invalid.contains(addTo)){
+                        invalid.add(addTo);
+                }
+
+            }
             itr++;
         }
-        valid = true;
-        calculateTotalCost();
+        return invalid;
+    }
+
+    private void makeValid(ArrayList<Vehicle> inValid){
+        if(inValid.size() == 0){
+            valid = true;
+            return;
+        }
+        for(Vehicle v : inValid){
+            while (!v.isValid()){
+                notPlaced.add(v.removeRandom());
+            }
+        }
 
     }
 

@@ -10,6 +10,8 @@ public class Vehicle {
     private double duration = 0.0; // Route duration to Final Customer. Does not include end depot
     private ArrayList<Customer> customers = new ArrayList<>();
 
+
+
     private boolean valid = true;
 
     public Vehicle(Depot startDepot) {
@@ -103,9 +105,11 @@ public class Vehicle {
         duration = distance;
         currentLoad = load;
 
+        endDepot = customers.get(customers.size() - 1).getClosestDepot();
+
     }
 
-    public ArrayList<Customer> forceFitC(Customer c){
+    public Boolean forceFitC(Customer c){
         double[]  temp = getMinDistanceWithC(c, true);
         int index = (int)temp[1];
 
@@ -115,7 +119,8 @@ public class Vehicle {
         currentLoad += c.getDemand();
         endDepot = customers.get(customers.size() - 1).getClosestDepot();
 
-        return null;
+        quickValidate();
+        return valid;
     }
 
     public boolean addCustomer(Customer c) {
@@ -163,7 +168,6 @@ public class Vehicle {
     public void removeCustomer(int pos) {
         removeCustomer(null, pos);
     }
-
     public void removeCustomer(Customer c, int pos) {
         if(pos != -1) {
             customers.remove(pos);
@@ -172,7 +176,6 @@ public class Vehicle {
             customers.remove(c);
         }
 
-        endDepot = customers.get(customers.size() - 1).getClosestDepot();
         calcRouteDuration();
 
     }
@@ -210,5 +213,20 @@ public class Vehicle {
             return duration;
     }
 
+    public boolean isValid() {
+        return valid;
+    }
 
+    public Customer removeRandom() {
+        Customer c = customers.get((int)(Math.random()*customers.size()));
+        removeCustomer(c);
+        quickValidate();
+        return c;
+    }
+
+    public Customer removeCloseToPath(ArrayList<Vehicle> vehicles) {
+
+            quickValidate();
+            return null;
+    }
 }
