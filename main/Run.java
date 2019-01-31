@@ -17,8 +17,8 @@ public class Run  extends Application{
     public static int n = 0; // Total number of customers
     public static int t = 0; // Number of depots
 
-    public static List<Depot> depots = new ArrayList<>();
-    public static List<Customer> customers = new ArrayList<>();
+    public static ArrayList<Depot> depots = new ArrayList<>();
+    public static ArrayList<Customer> customers = new ArrayList<>();
     
     public static void main(String[] args) {
         /*Data.ReadData("./src/Data Files/p21");

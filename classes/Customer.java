@@ -16,10 +16,13 @@ public class Customer extends PositionNode{
     private Customer closestCustomer; // The closest customer
     private double closestCustomerLength = 0; // How far until closest Customer
 
-
     /*
      * Methods
      */
+    public Customer(){
+
+    }
+
     public Customer(int i, int x, int y, int d, int q) {
         super(x, y);
         this.id = i;
@@ -59,6 +62,7 @@ public class Customer extends PositionNode{
             }
         }
         closestCustomerLength = minDist;
+    }
 
     }
     public Customer getClosestCustomer(ArrayList<Customer> notPlanced) {
