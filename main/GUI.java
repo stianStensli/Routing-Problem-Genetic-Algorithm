@@ -117,6 +117,14 @@ public class GUI implements Initializable {
     }
 
     public void drawPath(Solution s){
+        if(s.duplicates != null){
+            for(DuplicateNode d : s.duplicates){
+                gc.setFill(Color.web("PURPLE"));
+
+                drawRec(d.getCustomer().getX(),d.getCustomer().getY());
+                gc.setFill(Color.web("BLACK"));
+            }
+        }
         for(Vehicle vehicle : s.getVehicles()) {
             gc.setLineWidth(2);
             Random r = new Random();
@@ -134,6 +142,7 @@ public class GUI implements Initializable {
             if(vehicle.getEndDepot() == null){
                 System.out.println("whoops");
             }
+
             gc.strokeLine((prevX+xOffset)*recSize+lineOffset, (prevY+yOffset)*recSize+lineOffset, (vehicle.getEndDepot().getX()+xOffset)*recSize+lineOffset, (vehicle.getEndDepot().getY()+yOffset)*recSize+lineOffset);
         }
     }

@@ -8,6 +8,7 @@ public class Solution implements Comparable<Solution>{
 
     ArrayList<Vehicle> vehicles = new ArrayList<>();
     ArrayList<Customer> notPlaced = new ArrayList<>();
+    public ArrayList<DuplicateNode> duplicates = new ArrayList<>();
 
     public boolean valid = true;
     double totalCost = 0; // Fitness score. Mulig ta 1/score
@@ -192,19 +193,22 @@ public class Solution implements Comparable<Solution>{
     }
 
     public void removeDuplicateCustomers() {
-        ArrayList<DuplicateNode> duplicates = new ArrayList<>();
+        duplicates.clear();
+        ArrayList<DuplicateNode> tempDuplicates = new ArrayList<>();
 
         for(Vehicle vehicle : vehicles) {
             for(Customer customer : vehicle.getCustomers()) {
-                if(duplicates.contains(new DuplicateNode(customer.getId()))) {
+                if(tempDuplicates.contains(new DuplicateNode(customer.getId()))) {
                     System.out.println(customer.getX() + " " + customer.getY());
                     System.out.println("eksisterer");
+                    duplicates.add(new DuplicateNode(customer));
                 }
                 else {
-                    duplicates.add(new DuplicateNode(customer.getId()));
+                    tempDuplicates.add(new DuplicateNode(customer.getId()));
                 }
             }
         }
+
     }
 
     /*

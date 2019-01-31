@@ -64,7 +64,7 @@ public class EvaluationAlgorithm {
         mutate(bestSolution);
 
         while(!bestSolution.valid){
-            bestSolution.makeValid();
+            bestSolution.repair();
             System.out.println("Result Valid: " + bestSolution.getTotalCost());
         }
         ob.add(bestSolution);
