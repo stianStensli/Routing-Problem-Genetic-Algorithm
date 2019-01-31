@@ -10,6 +10,8 @@ public class Vehicle {
     private double duration = 0.0; // Route duration to Final Customer. Does not include end depot
     private ArrayList<Customer> customers = new ArrayList<>();
 
+    private boolean valid = true;
+
     public Vehicle(Depot startDepot) {
         this.startDepot = startDepot;
         this.endDepot = startDepot;
@@ -56,14 +58,21 @@ public class Vehicle {
         return distance;
     }
 
-    public double[] getMinDistanceWithC(Customer c){
+    public double getNewDiff(Customer c) {
+
+        double[]  temp = getMinDistanceWithC(c, true);
+
+        return temp[0]-duration;
+    }
+
+    public double[] getMinDistanceWithC(Customer c, boolean notValid){
         double minDistance = Double.MAX_VALUE;
         double index = -1;
 
         for(int i = 0; i <= customers.size(); i++){
             double tempDist = getDistanceWithC(c,i);
             if (tempDist < minDistance){
-                if(validateCustomer(c,i) != -1){
+                if(notValid || validateCustomer(c,i) != null){
                     index = i;
                     minDistance = tempDist;
                 }
@@ -73,32 +82,38 @@ public class Vehicle {
         return new double[]{minDistance, index};
     }
 
-    private double[] calcRouteDuration(){
+    private void calcRouteDuration(){
         double distance = 0.0;
-        double load = 0.0;
+        int load = 0;
         if(customers.size() == 0){
-            return new double[]{distance,load};
+            duration = distance;
+            currentLoad = load;
+
+            return;
         }
 
         distance += PositionNode.distanceTo(customers.get(0),startDepot);
         for(int i = 1; i < customers.size(); i++){
             distance += PositionNode.distanceTo(customers.get(i),customers.get(i-1));
+            load += customers.get(i).getDemand();
 
         }
         distance += customers.get(customers.size()-1).getClosestDepotLength();
 
-        return new double[]{distance,load};
+        duration = distance;
+        currentLoad = load;
 
     }
 
     public ArrayList<Customer> forceFitC(Customer c){
-        return forceFitC(c, null);
-    }
+        double[]  temp = getMinDistanceWithC(c, true);
+        int index = (int)temp[1];
 
-    //NotInUse are nodes that are not currently in any solution.
-    public ArrayList<Customer> forceFitC(Customer c, ArrayList<Customer> notInUse){
+        customers.add(index, c);
 
-
+        duration = temp[0];
+        currentLoad += c.getDemand();
+        endDepot = customers.get(customers.size() - 1).getClosestDepot();
 
         return null;
     }
@@ -108,11 +123,11 @@ public class Vehicle {
     }
 
     public boolean addCustomer(Customer c, int pos) {
-        double newDist = validateCustomer(c, pos);
-        if (newDist != -1) {
+        Double newDist = validateCustomer(c, pos);
+        if (newDist != null) {
             customers.add(pos, c);
 
-            duration = newDist;
+            duration = newDist.doubleValue();
             currentLoad += c.getDemand();
             endDepot = customers.get(customers.size() - 1).getClosestDepot();
             return true;
@@ -120,34 +135,27 @@ public class Vehicle {
         return false;
     }
 
-    public double validateCustomerEnd(Customer c){
-        return validateCustomer(c,customers.size());
-    }
-
     // Checks if given customer can be added to the end of the current route.
-    private double validateCustomer(Customer c, int pos) {
+    private Double validateCustomer(Customer c, int pos) {
         if(currentLoad + c.getDemand() > startDepot.getMaxLoad()){
-            return -1;
+            return null;
         }
 
         double newLength = 0.0;
 
-        if(customers.size() > 0){
-            newLength = getDistanceWithC(c,pos);
-        } else {
-            newLength = PositionNode.distanceTo(startDepot, c) + c.getClosestDepotLength();
-        }
+        newLength = getDistanceWithC(c,pos);
 
         //If new length is longer than the maximum size.
         if(startDepot.getMaxDuration() == 0){
             return newLength;
         }else if(startDepot.getMaxDuration() < newLength){
-            return -1;
+            return null;
         }
 
         return newLength;
 
     }
+
 
     public void removeCustomer(Customer c) {
         removeCustomer(c, -1);
@@ -165,11 +173,20 @@ public class Vehicle {
         }
 
         endDepot = customers.get(customers.size() - 1).getClosestDepot();
-        double[] temp = calcRouteDuration();
-        duration = temp[0];
-        currentLoad = (int)temp[1];
+        calcRouteDuration();
+
     }
 
+    private void quickValidate(){
+        valid = true;
+        if(this.duration > this.startDepot.getMaxDuration()){
+            valid = false;
+        }
+        if(currentLoad > this.startDepot.getMaxLoad()){
+            valid = false;
+        }
+
+    }
     /*
      * Getters and Setters
      */
@@ -192,4 +209,6 @@ public class Vehicle {
     public double getRouteDuration() {
             return duration;
     }
+
+
 }
