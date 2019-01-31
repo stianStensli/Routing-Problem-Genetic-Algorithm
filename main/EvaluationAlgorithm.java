@@ -65,16 +65,10 @@ public class EvaluationAlgorithm {
 
         while(!bestSolution.valid){
             bestSolution.makeValid();
-            //Platform.runLater(new Runnable() {
-              //  @Override
-                //public void run() {
-                   // ob.add(bestSolution);
-                //}
-            //});
-
+            System.out.println("Result Valid: " + bestSolution.getTotalCost());
         }
         ob.add(bestSolution);
-        
+
 
     }
 

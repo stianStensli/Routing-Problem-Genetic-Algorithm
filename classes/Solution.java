@@ -69,7 +69,7 @@ public class Solution implements Comparable<Solution>{
             double minAddedDistance = Double.MAX_VALUE;
             int index = -1;
             for(Vehicle v : vehicles){
-                    double[] newDist = v.getMinDistanceWithC(c);
+                    double[] newDist = v.getMinDistanceWithC(c,false);
                     if(newDist[1] != -1){
                         if(minAddedDistance > newDist[0]){
                             minAddedDistance = newDist[0];
@@ -98,29 +98,31 @@ public class Solution implements Comparable<Solution>{
 
     public void makeValid(){
         int itr = 0;
-        while (notPlaced.size() != 0 && itr < 1){
+
+        while (notPlaced.size() != 0 && itr < 1000){
             int rIndex = (int) (Math.random()*notPlaced.size());
-            Customer temp = notPlaced.get(rIndex);
-            Customer closestInVehicle = temp.getClosestCustomer();
-            if(notPlaced.contains(closestInVehicle)){
-                closestInVehicle = temp.getClosestCustomer(notPlaced);
-            }
+            Customer c = notPlaced.get(rIndex);
+            double minDiff = Double.MAX_VALUE;
+            Vehicle addTo = null;
 
             for(Vehicle v : vehicles){
-                if(v.getCustomers().contains(closestInVehicle)){
-                    ArrayList<Customer> adding = v.forceFitC(temp, notPlaced);
-                    if(adding != null){
-                    for(Customer a : adding){
-                        notPlaced.add(a);
-                    }
-                    notPlaced.remove(temp);
-                    break;
-                    }
+                double temp = v.getNewDiff(c);
+                if(temp < minDiff){
+                    minDiff = temp;
+                    addTo = v;
                 }
+            }
+            if(addTo == null){
+                System.err.println("ERROR! Solution make Valid");
+            }else{
+                addTo.forceFitC(c);
+                notPlaced.remove(c);
             }
 
             itr++;
         }
+        valid = true;
+        calculateTotalCost();
 
     }
 
