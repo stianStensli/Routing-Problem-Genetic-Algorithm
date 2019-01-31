@@ -7,14 +7,18 @@ import main.Run;
 public class Solution implements Comparable<Solution>{
 
     ArrayList<Vehicle> vehicles = new ArrayList<>();
-    ArrayList<Customer> notPlanced = new ArrayList<>();
+    ArrayList<Customer> notPlaced = new ArrayList<>();
 
     public boolean valid = true;
     double totalCost = 0; // Fitness score. Mulig ta 1/score
     int nrCustomers = 0;
 
-    public Solution() {
-        initialize();
+    public Solution() { }
+
+    public Solution(boolean initialize) {
+        if(initialize) {
+            initialize();
+        }
     }
 
     @Override
@@ -77,11 +81,11 @@ public class Solution implements Comparable<Solution>{
 
             if (tempVehicle == null){
                 //System.err.println("No Valid Solution found! This needs to be fixed!!!");
-                notPlanced.add(c);
+                notPlaced.add(c);
                 valid = false;
                 totalCost = Double.MAX_VALUE;
 
-            }else{
+            } else{
                 tempVehicle.addCustomer(c,index);
             }
         }
@@ -94,9 +98,10 @@ public class Solution implements Comparable<Solution>{
 
     public void makeValid(){
         int itr = 0;
-        while (notPlanced.size() != 0 && itr < 1000){
-            int rIndex = (int) (Math.random()*notPlanced.size());
-            Customer c = notPlanced.get(rIndex);
+
+        while (notPlaced.size() != 0 && itr < 1000){
+            int rIndex = (int) (Math.random()*notPlaced.size());
+            Customer c = notPlaced.get(rIndex);
             double minDiff = Double.MAX_VALUE;
             Vehicle addTo = null;
 
@@ -111,7 +116,7 @@ public class Solution implements Comparable<Solution>{
                 System.err.println("ERROR! Solution make Valid");
             }else{
                 addTo.forceFitC(c);
-                notPlanced.remove(c);
+                notPlaced.remove(c);
             }
 
             itr++;
@@ -133,6 +138,22 @@ public class Solution implements Comparable<Solution>{
                 totalCost += v.getRouteDuration();
             }
         }
+    }
+
+    public void updateMissingCustomers() {
+        notPlaced = new ArrayList<>(Run.customers);
+
+        for(Vehicle vehicle : vehicles) {
+            for(Customer customer : vehicle.getCustomers()) {
+                if(vehicle.getCustomers().contains(customer)) {
+                    notPlaced.remove(customer);
+                }
+            }
+        }
+    }
+
+    public void removeDuplicateCustomers() {
+        
     }
 
     /*
