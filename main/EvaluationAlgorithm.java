@@ -49,7 +49,6 @@ public class EvaluationAlgorithm {
         Collections.sort(population);
 
         bestSolution = population.get(0);
-        System.out.println("Result: " + bestSolution.getTotalCost());
 
         // Selection
         Solution[] selection = tournamentSelection();
@@ -61,12 +60,13 @@ public class EvaluationAlgorithm {
         bestSolution = offsprings[0];
 
         // Mutation
-        mutate(bestSolution);
-
+        //mutate(bestSolution);
+        bestSolution.validate();
         while(!bestSolution.valid){
             bestSolution.repair();
             System.out.println("Result Valid: " + bestSolution.getTotalCost());
         }
+        System.out.println("Result: " + bestSolution.getTotalCost());
         ob.add(bestSolution);
 
 
@@ -118,7 +118,10 @@ public class EvaluationAlgorithm {
             // Check if all customers are in solution
             offspring.updateMissingCustomers();
 
+            offspring.validate();
+
             // MakeValid
+            offspring.repair();
         }
 
     	return offsprings;

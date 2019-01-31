@@ -228,7 +228,16 @@ public class Solution implements Comparable<Solution>{
         }
 
     }
-
+    public void validate(){
+        if(notPlaced.size() >0){
+            valid = false;
+        }
+        for(Vehicle v : vehicles){
+            if(!v.isValid()){
+                valid = false;
+            }
+        }
+    }
     /*
      * Getters and Setters
      */

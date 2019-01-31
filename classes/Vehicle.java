@@ -182,7 +182,7 @@ public class Vehicle {
 
     private void quickValidate(){
         valid = true;
-        if(this.duration > this.startDepot.getMaxDuration()){
+        if(this.duration > this.startDepot.getMaxDuration() && !(this.startDepot.getMaxDuration() == 0)){
             valid = false;
         }
         if(currentLoad > this.startDepot.getMaxLoad()){
