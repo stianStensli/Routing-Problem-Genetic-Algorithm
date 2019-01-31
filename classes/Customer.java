@@ -81,6 +81,7 @@ public class Customer extends PositionNode{
         }
         return closeC;
     }
+
     /*
      * Getters and Setters
      */
