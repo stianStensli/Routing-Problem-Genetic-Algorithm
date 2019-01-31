@@ -118,7 +118,6 @@ public class GUI implements Initializable {
 
     public void drawPath(Solution s){
         for(Vehicle vehicle : s.getVehicles()) {
-            //Color colors[] = {Color.BLUE, Color.GREEN, Color.PURPLE, Color.BROWN, Color.ORANGE};
             gc.setLineWidth(2);
             Random r = new Random();
             gc.setStroke(Color.web( String.format("#%06x", r.nextInt(256*256*256)) ));

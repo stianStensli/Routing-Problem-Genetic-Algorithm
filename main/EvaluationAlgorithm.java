@@ -1,9 +1,6 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 import classes.Solution;
 import javafx.application.Application;
@@ -11,7 +8,7 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
 public class EvaluationAlgorithm {
-    private static int popSize = 1;			// Population size
+    private static int popSize = 100;			// Population size
     private static int numOffsprings = 0;		// Number of offsprings
     private static boolean survival = false;	// true=Elitism and false=Generational. I elitism så overlever foreldrene (the fittest) til neste generasjon
     private static double mp = 0.0;				// Mutation probability pm (1/n) - (Mutation rate)
@@ -51,7 +48,16 @@ public class EvaluationAlgorithm {
         Collections.sort(population);
 
         bestSolution = population.get(0);
-        System.out.println("Result: "+bestSolution.getTotalCost());
+        System.out.println("Result: " + bestSolution.getTotalCost());
+
+        // Selection
+        Solution parent1 = tournamentSelection();
+        Solution parent2 = tournamentSelection();
+        /*
+        Kan eventuelt la tournamentSelection returnerer [Solution, Solution]
+        saa man slipper to funksjonskall
+         */
+        Solution newSolution = crossover(parent1, parent2);
 
         while(!bestSolution.valid){
             bestSolution.makeValid();
@@ -63,22 +69,38 @@ public class EvaluationAlgorithm {
             //});
 
         }
-
-        tournamentSelection(population);
-
         ob.add(bestSolution);
+        
 
     }
     /*
      * Methods
      */
-    public void tournamentSelection(List<Solution> population) {
+    public Solution tournamentSelection() {
     	List<Solution> tournament = new ArrayList<>();
-    	
+    	Random r = new Random();
+
+    	for(int i = 0; i < tournamentSize; i++) {
+    	    while(true) {
+                int randomIndex = r.nextInt(population.size());
+                Solution tempSolution = population.get(randomIndex);
+
+    	        if(!tournament.contains(tempSolution)) {
+    	            tournament.add(tempSolution);
+    	            break;
+                }
+            }
+        }
+
+    	Collections.sort(tournament);
+
+        return tournament.get(0);
     }
     
-    public void crossover() {
-    	
+    public Solution crossover(Solution p1, Solution p2) {
+    	Solution newSolution = new Solution();
+
+    	return newSolution;
     }
     
     public void mutate() {
@@ -137,9 +159,7 @@ public class EvaluationAlgorithm {
 	public static Solution getBestSolution() {
 		return bestSolution;
 	}
-
 	public void loadObservableList(ArrayList<Solution> ob){
         this.ob = ob;
     }
-
 }

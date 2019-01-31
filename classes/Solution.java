@@ -55,7 +55,7 @@ public class Solution implements Comparable<Solution>{
             }
         }
 
-        // Assign customers randomly to vehicles
+        // Assign customers to vehicles
         for(int i = 0; i < Run.customers.size(); i++) {
             Vehicle tempVehicle = null;
             Customer c = Run.customers.get(i);
@@ -71,14 +71,11 @@ public class Solution implements Comparable<Solution>{
                             minAddedDistance = newDist[0];
                             index = (int)newDist[1];
                             tempVehicle = v;
-
                         }
                     }
             }
 
-
             if (tempVehicle == null){
-
                 //System.err.println("No Valid Solution found! This needs to be fixed!!!");
                 notPlanced.add(c);
                 valid = false;
@@ -123,11 +120,6 @@ public class Solution implements Comparable<Solution>{
 
     }
 
-
-    public void addVehicle(Vehicle v) {
-        this.vehicles.add(v);
-    }
-    
     public void calculateTotalCost(){
         if(!valid ){
             nrCustomers = 0;
@@ -142,7 +134,6 @@ public class Solution implements Comparable<Solution>{
         }
     }
 
-
     /*
      * Getters and Setters
      */
@@ -152,6 +143,7 @@ public class Solution implements Comparable<Solution>{
     public double getTotalCost() {
         return totalCost;
     }
-
-
+    public void addVehicle(Vehicle v) {
+        this.vehicles.add(v);
+    }
 }
