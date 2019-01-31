@@ -192,7 +192,19 @@ public class Solution implements Comparable<Solution>{
     }
 
     public void removeDuplicateCustomers() {
-        
+        ArrayList<DuplicateNode> duplicates = new ArrayList<>();
+
+        for(Vehicle vehicle : vehicles) {
+            for(Customer customer : vehicle.getCustomers()) {
+                if(duplicates.contains(new DuplicateNode(customer.getId()))) {
+                    System.out.println(customer.getX() + " " + customer.getY());
+                    System.out.println("eksisterer");
+                }
+                else {
+                    duplicates.add(new DuplicateNode(customer.getId()));
+                }
+            }
+        }
     }
 
     /*
