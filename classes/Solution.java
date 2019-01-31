@@ -8,11 +8,11 @@ public class Solution implements Comparable<Solution>{
 
     ArrayList<Vehicle> vehicles = new ArrayList<>();
     ArrayList<Customer> notPlaced = new ArrayList<>();
-    public ArrayList<DuplicateNode> duplicates = new ArrayList<>();
 
     public boolean valid = true;
     double totalCost = 0; // Fitness score. Mulig ta 1/score
     int nrCustomers = 0;
+    public ArrayList<DuplicateNode> duplicates = new ArrayList<>();
 
     public Solution() { }
 
@@ -193,18 +193,36 @@ public class Solution implements Comparable<Solution>{
     }
 
     public void removeDuplicateCustomers() {
-        duplicates.clear();
         ArrayList<DuplicateNode> tempDuplicates = new ArrayList<>();
 
         for(Vehicle vehicle : vehicles) {
             for(Customer customer : vehicle.getCustomers()) {
-                if(tempDuplicates.contains(new DuplicateNode(customer.getId()))) {
-                    System.out.println(customer.getX() + " " + customer.getY());
-                    System.out.println("eksisterer");
-                    duplicates.add(new DuplicateNode(customer));
+                boolean notFound = true;
+                 DuplicateNode temp = new DuplicateNode(customer.getId());
+                for(DuplicateNode n : tempDuplicates){
+                    if(n.equals(temp)){
+
+                        System.out.println(customer.getX() + " " + customer.getY());
+                        n.addVehicle(vehicle);
+                        notFound = false;
+                    }
                 }
-                else {
-                    tempDuplicates.add(new DuplicateNode(customer.getId()));
+                if(notFound){
+                    DuplicateNode node = new DuplicateNode(customer);
+                    node.addVehicle(vehicle);
+                    tempDuplicates.add(node);
+                }
+            }
+        }
+
+        duplicates = tempDuplicates;
+
+        if(tempDuplicates.size() > 0){
+            for(DuplicateNode d : duplicates){
+                ArrayList<Vehicle> vTemp = d.getVehicles();
+                if(vTemp.size() > 1){
+                    Vehicle v = vTemp.get((int)(Math.random()*vTemp.size()));
+                    v.removeCustomer(d.getCustomer());
                 }
             }
         }

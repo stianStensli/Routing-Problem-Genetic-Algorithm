@@ -113,6 +113,7 @@ public class EvaluationAlgorithm {
         for(Solution offspring : offsprings) {
             // Remove duplicates
             offspring.removeDuplicateCustomers();
+            System.out.println("New Offspring");
 
             // Check if all customers are in solution
             offspring.updateMissingCustomers();

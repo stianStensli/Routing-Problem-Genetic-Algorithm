@@ -119,10 +119,12 @@ public class GUI implements Initializable {
     public void drawPath(Solution s){
         if(s.duplicates != null){
             for(DuplicateNode d : s.duplicates){
+                if(d.getVehicles().size() > 1){
                 gc.setFill(Color.web("PURPLE"));
 
                 drawRec(d.getCustomer().getX(),d.getCustomer().getY());
                 gc.setFill(Color.web("BLACK"));
+            }
             }
         }
         for(Vehicle vehicle : s.getVehicles()) {
