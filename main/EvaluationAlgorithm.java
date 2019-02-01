@@ -9,12 +9,12 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
 public class EvaluationAlgorithm {
-    private static int popSize = 20;			// Population size
-    private static int numOffsprings = 0;		// Number of offsprings
-    private static boolean survival = false;	// true=Elitism and false=Generational. I elitism så overlever foreldrene (the fittest) til neste generasjon
+    private static int popSize = 100;			// Population size
+    private static int numOffsprings = 30;		// Number of offsprings
+    private static boolean survival = true;	// true=Elitism and false=Generational. I elitism så overlever foreldrene (the fittest) til neste generasjon
     private static double mp = 0.01;				// Mutation probability pm (1/n) - (Mutation rate)
     private static double recombProbability = 0.7; // For hver forelder som blir valgt, er det 70% sjanse for at det blir gjort en crossover, og 30% at det blir en kopi av forelder
-    private static int maxRuns = 0;				// Maximum number of runs before termination
+    private static int maxRuns = 100;				// Maximum number of runs before termination
     private static int tournamentSize = 5;		// Number of individuals to choose from population at random
     // Eventuelt legge til "No improvement in the last 25 generations"
     
@@ -34,9 +34,16 @@ public class EvaluationAlgorithm {
         // Initialize population
         population = new ArrayList<>();
 
-        for(int i = 0; i < popSize; i++) {
+        if(!survival ){
+            numOffsprings = popSize;
+        }
+
+
+        while(population.size() < popSize) {
             Collections.shuffle(Run.customers);
-            population.add(new Solution(true));
+            Solution temp = new Solution(true);
+            if(temp.valid)
+                population.add(temp);
         }
         System.out.println("Initialize population done. " + popSize + " random solutions found");
 
@@ -46,29 +53,38 @@ public class EvaluationAlgorithm {
         }
 
         // Sort population on (1)fitness score, (2)if it's valid and (3)number of customers in the route
-        Collections.sort(population);
+        //Collections.sort(population);
 
-        bestSolution = population.get(0);
+        //bestSolution = population.get(0);
+        int gen = 0;
+        while(gen < maxRuns) {
+            gen++;
+            // Selection
+            ArrayList<Solution> offsprings = new ArrayList<>();
+            while(offsprings.size() < numOffsprings) {
+                Solution[] selected = tournamentSelection();
+                Solution father = selected[0];
+                Solution mother = selected[1];
 
-        // Selection
-        Solution[] selection = tournamentSelection();
-        Solution selectionBestSolution = selection[0];
-        Solution selectionSecondBestSolution = selection[1];
+                // Crossover
+                Solution[] offspringstemp = crossover(father, mother);
 
-        // Crossover
-        Solution offsprings[] = crossover(selectionBestSolution, selectionSecondBestSolution);
-        bestSolution = offsprings[0];
+                // Mutation
+                for(Solution child : offspringstemp){
+                    mutate(child);
+                    if(child.valid){
+                        offsprings.add(child);
+                    }
+                }
 
-        // Mutation
-        //mutate(bestSolution);
-        bestSolution.validate();
-        while(!bestSolution.valid){
-            bestSolution.repair();
-            System.out.println("Result Valid: " + bestSolution.getTotalCost());
+            }
+            while (offsprings.size() > numOffsprings){
+                offsprings.remove(offsprings.size()-1);
+            }
+
+            System.out.println("Result: " + bestSolution.getTotalCost());
+            ob.add(bestSolution);
         }
-        System.out.println("Result: " + bestSolution.getTotalCost());
-        ob.add(bestSolution);
-
 
     }
 
@@ -128,7 +144,11 @@ public class EvaluationAlgorithm {
     }
     
     public void mutate(Solution solution) {
+        solution.mutate();
 
+
+        solution.validate();
+        solution.repair();
     }
 
     /*

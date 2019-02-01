@@ -238,6 +238,11 @@ public class Solution implements Comparable<Solution>{
             }
         }
     }
+
+    public void mutate() {
+        
+    }
+
     /*
      * Getters and Setters
      */
@@ -250,4 +255,5 @@ public class Solution implements Comparable<Solution>{
     public void addVehicle(Vehicle v) {
         this.vehicles.add(v);
     }
+
 }
