@@ -11,10 +11,10 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
 public class EvaluationAlgorithm {
-    private static int popSize = 100; // Population size
+    private static int popSize = 150; // Population size
     private static int numOffsprings = 15; // Number of offsprings
     private static boolean survival = true; // true=Elitism and false=Generational. I elitism så overlever foreldrene (the fittest) til neste generasjon
-    private static double mutationRate = 0.5; // Mutation rate
+    private static double mutationRate = 0.2; // Mutation rate
     private static double recombProbability = 0.7; // Kun for generational. For hver forelder som blir valgt, er det 70% sjanse for at det blir gjort en crossover, og 30% at det blir en kopi av forelder
     private static int maxRuns = 100; // Maximum number of runs before termination
     private static int tournamentSize = 5; // Number of individuals to choose from population at random
