@@ -146,9 +146,8 @@ public class EvaluationAlgorithm {
             // Check if all customers are in solution
             offspring.updateMissingCustomers();
 
+            // Make valid
             offspring.validate();
-
-            // MakeValid
             offspring.repair();
         }
 
@@ -164,56 +163,22 @@ public class EvaluationAlgorithm {
     /*
      * Getters and Setters
      */
-    public static int getPopSize() {
-        return popSize;
-    }
-    public void setPopSize(int popSize) {
-        this.popSize = popSize;
-    }
-    public static int getNumOffsprings() {
-        return numOffsprings;
-    }
-    public void setNumOffsprings(int numOffsprings) {
-        this.numOffsprings = numOffsprings;
-    }
-    public static boolean isSurvival() {
-        return survival;
-    }
-    public void setSurvival(boolean survival) {
-        this.survival = survival;
-    }
-    public static double getMutationRate() {
-        return mutationRate;
-    }
-    public void setMutationRate(double mutationRate) {
-        this.mutationRate = mutationRate;
-    }
-    public static double getRecombProbability() {
-        return recombProbability;
-    }
-    public void setRecombProbability(double recombProbability) {
-        this.recombProbability = recombProbability;
-    }
-    public static int getMaxRuns() {
-        return maxRuns;
-    }
-    public void setMaxRuns(int maxRuns) {
-        this.maxRuns = maxRuns;
-    }
-    public static int getTournamentSize() {
-        return tournamentSize;
-    }
-    public void setTournamentSize(int tournamentSize) {
-        this.tournamentSize = tournamentSize;
-    }
+    public static int getPopSize() { return popSize; }
+    public void setPopSize(int popSize) { this.popSize = popSize; }
+    public static int getNumOffsprings() { return numOffsprings; }
+    public void setNumOffsprings(int numOffsprings) { this.numOffsprings = numOffsprings; }
+    public static boolean isSurvival() { return survival; }
+    public void setSurvival(boolean survival) { this.survival = survival; }
+    public static double getMutationRate() { return mutationRate; }
+    public void setMutationRate(double mutationRate) { this.mutationRate = mutationRate; }
+    public static double getRecombProbability() { return recombProbability; }
+    public void setRecombProbability(double recombProbability) { this.recombProbability = recombProbability; }
+    public static int getMaxRuns() { return maxRuns; }
+    public void setMaxRuns(int maxRuns) { this.maxRuns = maxRuns; }
+    public static int getTournamentSize() { return tournamentSize; }
+    public void setTournamentSize(int tournamentSize) { this.tournamentSize = tournamentSize; }
 
-	public static List<Solution> getPopulation() {
-		return population;
-	}
-	public static Solution getBestSolution() {
-		return bestSolution;
-	}
-	public void loadObservableList(ArrayList<Solution> ob){
-        this.ob = ob;
-    }
+	public static List<Solution> getPopulation() { return population; }
+	public static Solution getBestSolution() { return bestSolution; }
+	public void loadObservableList(ArrayList<Solution> ob){ this.ob = ob; }
 }

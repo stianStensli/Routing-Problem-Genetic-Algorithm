@@ -114,7 +114,7 @@ public class Solution implements Comparable<Solution>{
         if(valid){
             System.out.println("Success");
         }else {
-            System.out.println("Uhhh");
+            //System.out.println("Uhhh");
             valid = false;
         }
         calculateTotalCost();
