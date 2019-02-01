@@ -204,8 +204,6 @@ public class Solution implements Comparable<Solution>{
 
                 for(DuplicateNode n : tempDuplicates){
                     if(n.equals(temp)){
-
-                        System.out.println(customer.getX() + " " + customer.getY());
                         n.addVehicle(vehicle);
                         notFound = false;
                     }
