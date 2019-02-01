@@ -246,7 +246,7 @@ public class GUI implements Initializable {
                 if(intList.size() > solutionSize){
 
                     solutionSize = intList.size();
-                    if(bestSolution== null || !bestSolution.equals(intList.get(solutionSize-1))){
+                    if(bestSolution == null || !bestSolution.equals(intList.get(solutionSize-1)) || EvaluationAlgorithm.getMaxRuns() == solutionSize+1){
                         if(bestSolution == null) {
                             bestSolution = intList.get(solutionSize - 1);
                         }
