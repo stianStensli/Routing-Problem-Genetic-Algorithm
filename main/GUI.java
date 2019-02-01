@@ -242,13 +242,19 @@ public class GUI implements Initializable {
             public void handle(long currentNanoTime)
             {
                 if(intList.size() > solutionSize){
-                    solutionSize = intList.size();
-                    bestSolution = intList.get(solutionSize-1);
-                    drawShapes();
-                    drawPath(bestSolution);
-                    drawText(bestSolution);
-                    series.getData().add(new XYChart.Data(solutionSize, bestSolution.getTotalCost()));
 
+                    solutionSize = intList.size();
+                    if(bestSolution== null || !bestSolution.equals(intList.get(solutionSize-1))){
+                        if(bestSolution == null) {
+                            bestSolution = intList.get(solutionSize - 1);
+                        }
+                        bestSolution = intList.get(solutionSize-1);
+                        drawShapes();
+                        drawPath(bestSolution);
+                        series.getData().add(new XYChart.Data(solutionSize, bestSolution.getTotalCost()));
+                    }
+
+                    drawText(bestSolution);
                 }
             }
         }.start();
