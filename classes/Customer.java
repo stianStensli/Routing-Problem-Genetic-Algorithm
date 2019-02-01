@@ -16,6 +16,12 @@ public class Customer extends PositionNode{
     private Customer closestCustomer; // The closest customer
     private double closestCustomerLength = 0; // How far until closest Customer
 
+
+    @Override
+    public String toString() {
+        return this.id + "";
+    }
+
     /*
      * Methods
      */

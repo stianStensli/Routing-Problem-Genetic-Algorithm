@@ -84,7 +84,7 @@ public class Vehicle {
         return new double[]{minDistance, index};
     }
 
-    private void calcRouteDuration(){
+    public void calcRouteDuration(){
         double distance = 0.0;
         int load = 0;
         if(customers.size() == 0){
@@ -180,7 +180,7 @@ public class Vehicle {
 
     }
 
-    private void quickValidate(){
+    public void quickValidate(){
         valid = true;
         if(this.duration > this.startDepot.getMaxDuration() && !(this.startDepot.getMaxDuration() == 0)){
             valid = false;

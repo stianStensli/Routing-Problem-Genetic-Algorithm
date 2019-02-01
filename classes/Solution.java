@@ -1,6 +1,8 @@
 package classes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import main.Run;
 
@@ -198,7 +200,8 @@ public class Solution implements Comparable<Solution>{
         for(Vehicle vehicle : vehicles) {
             for(Customer customer : vehicle.getCustomers()) {
                 boolean notFound = true;
-                 DuplicateNode temp = new DuplicateNode(customer.getId());
+                DuplicateNode temp = new DuplicateNode(customer.getId());
+
                 for(DuplicateNode n : tempDuplicates){
                     if(n.equals(temp)){
 
@@ -217,16 +220,15 @@ public class Solution implements Comparable<Solution>{
 
         duplicates = tempDuplicates;
 
-        if(tempDuplicates.size() > 0){
-            for(DuplicateNode d : duplicates){
+        if(tempDuplicates.size() > 0) {
+            for (DuplicateNode d : duplicates) {
                 ArrayList<Vehicle> vTemp = d.getVehicles();
-                if(vTemp.size() > 1){
-                    Vehicle v = vTemp.get((int)(Math.random()*vTemp.size()));
+                if (vTemp.size() > 1) {
+                    Vehicle v = vTemp.get((int) (Math.random() * vTemp.size()));
                     v.removeCustomer(d.getCustomer());
                 }
             }
         }
-
     }
     public void validate(){
         if(notPlaced.size() >0){
@@ -239,8 +241,22 @@ public class Solution implements Comparable<Solution>{
         }
     }
 
-    public void mutate() {
-        
+    public void mutate(double mutationRate) {
+        swapMutate(mutationRate);
+    }
+
+    private void swapMutate(double mutationRate) {
+        for(Vehicle vehicle : vehicles) {
+            if(Math.random() <= mutationRate && vehicle.getCustomers().size() > 1) {
+                int indexCustomer = (int)(Math.random() * vehicle.getCustomers().size());
+                int indexTempCustomer = (int)(Math.random() * vehicle.getCustomers().size());
+
+                Collections.swap(vehicle.getCustomers(), indexCustomer, indexTempCustomer);
+
+                vehicle.calcRouteDuration();
+                vehicle.quickValidate();
+            }
+        }
     }
 
     /*
@@ -255,5 +271,4 @@ public class Solution implements Comparable<Solution>{
     public void addVehicle(Vehicle v) {
         this.vehicles.add(v);
     }
-
 }
