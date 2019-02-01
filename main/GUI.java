@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -29,9 +30,15 @@ public class GUI implements Initializable {
     private Canvas canvas;
     @FXML
     private ChoiceBox cBox;
+    @FXML
+    private Label generation;
+    @FXML
+    private Label fitness;
 
     private Stage primaryStage;
     private GraphicsContext gc;
+
+    private EvaluationAlgorithm algorithm;
 
     private double xOffset;
     private double yOffset;
@@ -42,6 +49,7 @@ public class GUI implements Initializable {
     private double padding = 5;
     ArrayList<Solution> intList = new ArrayList();
     Solution bestSolution;
+    int solutionSize = 0;
 
     Thread calcThread;
 
@@ -57,7 +65,7 @@ public class GUI implements Initializable {
     private void initThread(){
         calcThread = new Thread(new Runnable() {
         public void run() {
-            EvaluationAlgorithm algorithm = new EvaluationAlgorithm();
+            algorithm = new EvaluationAlgorithm();
             algorithm.loadObservableList(intList);
             algorithm.run();
         }
@@ -117,16 +125,6 @@ public class GUI implements Initializable {
     }
 
     public void drawPath(Solution s){
-        if(s.duplicates != null){
-            for(DuplicateNode d : s.duplicates){
-                if(d.getVehicles().size() > 1){
-                gc.setFill(Color.web("YELLOW"));
-
-                drawRec(d.getCustomer().getX(),d.getCustomer().getY());
-                gc.setFill(Color.web("BLACK"));
-            }
-            }
-        }
         for(Vehicle vehicle : s.getVehicles()) {
             gc.setLineWidth(2);
             Random r = new Random();
@@ -147,6 +145,11 @@ public class GUI implements Initializable {
 
             gc.strokeLine((prevX+xOffset)*recSize+lineOffset, (prevY+yOffset)*recSize+lineOffset, (vehicle.getEndDepot().getX()+xOffset)*recSize+lineOffset, (vehicle.getEndDepot().getY()+yOffset)*recSize+lineOffset);
         }
+    }
+
+    private void drawText(Solution s) {
+        generation.setText(algorithm.getGeneration().toString());
+        fitness.setText(Double.toString(s.getTotalCost()));
     }
 
     public void setStage(Stage stage) {
@@ -217,35 +220,16 @@ public class GUI implements Initializable {
     public void initListener(){
         intList = new ArrayList();
 
-    /*
-
-        ob.addListener(new ListChangeListener<Solution>() {
-            @Override
-            public void onChanged(javafx.collections.ListChangeListener.Change<? extends Solution> c) {
-                c.next();
-                if(c.wasAdded()){
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            drawShapes();
-                            if(c.getList().size() != 0){
-                                drawPath(c.getList().get(c.getList().size()-1));
-                            }
-                        }
-                    });
-                }
-            }
-
-        });*/
         new AnimationTimer()
         {
             public void handle(long currentNanoTime)
             {
-                if(intList.size() > 0){
-                    bestSolution = intList.get(intList.size()-1);
-                    intList.clear();
+                if(intList.size() > solutionSize){
+                    solutionSize = intList.size();
+                    bestSolution = intList.get(solutionSize-1);
                     drawShapes();
                     drawPath(bestSolution);
+                    drawText(bestSolution);
                 }
             }
         }.start();

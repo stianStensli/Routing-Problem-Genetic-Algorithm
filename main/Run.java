@@ -21,12 +21,6 @@ public class Run  extends Application{
     public static ArrayList<Customer> customers = new ArrayList<>();
     
     public static void main(String[] args) {
-        /*Data.ReadData("./src/Data Files/p21");
-
-        System.out.println("Maximum number of vehicles available:\t" + m);
-        System.out.println("Total number of customers:\t\t" + n);
-        System.out.println("Number of depots:\t\t\t" + t);
-               */
         launch(args);
     }
 

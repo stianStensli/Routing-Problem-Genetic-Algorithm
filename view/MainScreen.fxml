@@ -7,17 +7,22 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.2692307692307692" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.GUI">
+<SplitPane dividerPositions="0.2692307692307692" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.GUI">
     <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
             <children>
                 <VBox alignment="CENTER" spacing="10.0">
                     <children>
-                        <Label text="Options:" />
+                        <Label text="Options:">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
                         <Button mnemonicParsing="false" onAction="#calculate" text="calculate" />
-                  <ChoiceBox prefWidth="150.0" fx:id="cBox" onAction="#changeFile"/>
+                        <ChoiceBox fx:id="cBox" onAction="#changeFile" prefWidth="150.0" />
                     </children>
                     <opaqueInsets>
                         <Insets />
@@ -25,6 +30,47 @@
                     <padding>
                         <Insets left="5.0" top="10.0" />
                     </padding></VBox>
+            <Label layoutX="22.0" layoutY="683.0" text="Depots:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="22.0" layoutY="712.0" text="Customers:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <HBox layoutX="24.0" layoutY="842.0" prefHeight="35.0" prefWidth="335.0" spacing="5.0">
+               <children>
+                  <Label text="Fitness:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="fitness" prefHeight="35.0" prefWidth="192.0" text="0">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox layoutX="24.0" layoutY="807.0" prefHeight="35.0" prefWidth="335.0" spacing="5.0">
+               <children>
+                  <Label text="Generation: ">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="generation" prefHeight="35.0" prefWidth="201.0" text="1">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             </children></AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
             <children>

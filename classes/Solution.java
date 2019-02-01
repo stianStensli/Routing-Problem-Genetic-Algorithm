@@ -15,7 +15,6 @@ public class Solution implements Comparable<Solution>{
     private boolean valid = true;
     double totalCost = 0; // Fitness score. Mulig ta 1/score
     int nrCustomers = 0;
-    public ArrayList<DuplicateNode> duplicates = new ArrayList<>();
 
     public Solution() { }
 
@@ -102,7 +101,7 @@ public class Solution implements Comparable<Solution>{
 
     public void repair(){
         int itr = 0;
-        while (!valid && itr < 9999) {
+        while (!valid && itr < 999) {
             if(notPlaced.size() == 0){
                 valid = true;
             }else{
@@ -217,10 +216,8 @@ public class Solution implements Comparable<Solution>{
             }
         }
 
-        duplicates = tempDuplicates;
-
         if(tempDuplicates.size() > 0) {
-            for (DuplicateNode d : duplicates) {
+            for (DuplicateNode d : tempDuplicates) {
                 ArrayList<Vehicle> vTemp = d.getVehicles();
                 if (vTemp.size() > 1) {
                     Vehicle v = vTemp.get((int) (Math.random() * vTemp.size()));
