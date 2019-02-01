@@ -40,6 +40,9 @@ public class GUI implements Initializable {
     private Label fitness;
     @FXML
     private LineChart<Number, Number> linechart;
+    @FXML
+    private NumberAxis yAxis;
+
     XYChart.Series series = new XYChart.Series();
 
 
@@ -65,12 +68,11 @@ public class GUI implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         gc = canvas.getGraphicsContext2D();
         calcRecSizeAndOffest();
-
         initListener();
         initChoiceBox();
         initThread();
         linechart.getData().add(series);
-
+        yAxis.forceZeroInRangeProperty().setValue(false);
 
     }
     private void initThread(){
