@@ -17,6 +17,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -34,6 +38,10 @@ public class GUI implements Initializable {
     private Label generation;
     @FXML
     private Label fitness;
+    @FXML
+    private LineChart<Number, Number> linechart;
+    XYChart.Series series = new XYChart.Series();
+
 
     private Stage primaryStage;
     private GraphicsContext gc;
@@ -61,6 +69,9 @@ public class GUI implements Initializable {
         initListener();
         initChoiceBox();
         initThread();
+        linechart.getData().add(series);
+
+
     }
     private void initThread(){
         calcThread = new Thread(new Runnable() {
@@ -97,6 +108,7 @@ public class GUI implements Initializable {
     @FXML
     public void calculate(){
         if(calcThread.getState() == NEW)
+            //linechart.getData().clear();
             calcThread.start();
         if(calcThread.getState() == TERMINATED){
             initThread();
@@ -230,6 +242,8 @@ public class GUI implements Initializable {
                     drawShapes();
                     drawPath(bestSolution);
                     drawText(bestSolution);
+                    series.getData().add(new XYChart.Data(solutionSize, bestSolution.getTotalCost()));
+
                 }
             }
         }.start();

@@ -94,7 +94,7 @@ public class EvaluationAlgorithm {
 
             bestSolution = population.get(0);
 
-            System.out.println("Result: " + bestSolution.getTotalCost());
+            //System.out.println("Result: " + bestSolution.getTotalCost());
             ob.add(bestSolution);
         }
     }
