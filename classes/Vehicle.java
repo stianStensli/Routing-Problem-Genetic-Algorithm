@@ -19,6 +19,18 @@ public class Vehicle {
         this.endDepot = startDepot;
     }
 
+    public Vehicle(Vehicle vehicle) {
+        this.startDepot = vehicle.startDepot;
+        this.endDepot = vehicle.endDepot;
+        this.duration = vehicle.duration;
+        this.currentLoad = vehicle.currentLoad;
+
+        for(Customer c : vehicle.customers){
+            customers.add(c);
+        }
+
+    }
+
     /*
      * Methods
      */

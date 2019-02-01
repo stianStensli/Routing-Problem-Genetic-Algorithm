@@ -4,6 +4,7 @@ import java.util.*;
 
 import classes.Customer;
 import classes.Solution;
+import classes.Vehicle;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -14,7 +15,7 @@ public class EvaluationAlgorithm {
     private static boolean survival = true;	// true=Elitism and false=Generational. I elitism så overlever foreldrene (the fittest) til neste generasjon
     private static double mutationRate = 0.01;		// Mutation rate
     private static double recombProbability = 0.7; // For hver forelder som blir valgt, er det 70% sjanse for at det blir gjort en crossover, og 30% at det blir en kopi av forelder
-    private static int maxRuns = 100;				// Maximum number of runs before termination
+    private static int maxRuns = 1;				// Maximum number of runs before termination
     private static int tournamentSize = 5;		// Number of individuals to choose from population at random
     // Eventuelt legge til "No improvement in the last 25 generations"
     
@@ -42,7 +43,7 @@ public class EvaluationAlgorithm {
         while(population.size() < popSize) {
             Collections.shuffle(Run.customers);
             Solution temp = new Solution(true);
-            if(temp.valid)
+            if(temp.isValid())
                 population.add(temp);
         }
         System.out.println("Initialize population done. " + popSize + " random solutions found");
@@ -65,8 +66,8 @@ public class EvaluationAlgorithm {
 
                 // Mutation
                 for(Solution child : offspringsTemp){
-                    mutate(child);
-                    if(child.valid){
+                    //mutate(child);
+                    if(child.isValid()){
                         offsprings.add(child);
                     }
                 }
@@ -93,6 +94,8 @@ public class EvaluationAlgorithm {
 
             System.out.println("Result: " + bestSolution.getTotalCost());
             ob.add(bestSolution);
+            bestSolution.validate();
+            System.out.println(bestSolution.isValid());
 
             generation++;
         }
@@ -127,12 +130,12 @@ public class EvaluationAlgorithm {
 
         for(int i = 0; i < father.getVehicles().size(); i++) {
             if(i <= crossoverPoint) {
-                offsprings[0].addVehicle(father.getVehicles().get(i));
-                offsprings[1].addVehicle(mother.getVehicles().get(i));
+                offsprings[0].addVehicle(new Vehicle(father.getVehicles().get(i)));
+                offsprings[1].addVehicle(new Vehicle(mother.getVehicles().get(i)));
             }
             else {
-                offsprings[0].addVehicle(mother.getVehicles().get(i));
-                offsprings[1].addVehicle(father.getVehicles().get(i));
+                offsprings[0].addVehicle(new Vehicle(mother.getVehicles().get(i)));
+                offsprings[1].addVehicle(new Vehicle(father.getVehicles().get(i)));
             }
         }
 

@@ -11,7 +11,8 @@ public class Solution implements Comparable<Solution>{
     ArrayList<Vehicle> vehicles = new ArrayList<>();
     ArrayList<Customer> notPlaced = new ArrayList<>();
 
-    public boolean valid = true;
+
+    private boolean valid = true;
     double totalCost = 0; // Fitness score. Mulig ta 1/score
     int nrCustomers = 0;
     public ArrayList<DuplicateNode> duplicates = new ArrayList<>();
@@ -229,6 +230,7 @@ public class Solution implements Comparable<Solution>{
         }
     }
     public void validate(){
+        valid = true;
         if(notPlaced.size() >0){
             valid = false;
         }
@@ -268,5 +270,8 @@ public class Solution implements Comparable<Solution>{
     }
     public void addVehicle(Vehicle v) {
         this.vehicles.add(v);
+    }
+    public boolean isValid() {
+        return valid;
     }
 }
