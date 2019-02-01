@@ -76,6 +76,8 @@ public class GUI implements Initializable {
     private void initThread(){
         calcThread = new Thread(new Runnable() {
         public void run() {
+            intList.clear();
+            solutionSize = 0;
             algorithm = new EvaluationAlgorithm();
             algorithm.loadObservableList(intList);
             algorithm.run();
@@ -108,9 +110,12 @@ public class GUI implements Initializable {
     @FXML
     public void calculate(){
         if(calcThread.getState() == NEW)
-            //linechart.getData().clear();
             calcThread.start();
         if(calcThread.getState() == TERMINATED){
+            linechart.getData().clear();
+            series = new XYChart.Series();
+            linechart.getData().add(series);
+
             initThread();
             calcThread.start();
         }
