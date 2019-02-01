@@ -15,7 +15,7 @@ public class EvaluationAlgorithm {
     private static boolean survival = true;	// true=Elitism and false=Generational. I elitism så overlever foreldrene (the fittest) til neste generasjon
     private static double mutationRate = 0.01;		// Mutation rate
     private static double recombProbability = 0.7; // For hver forelder som blir valgt, er det 70% sjanse for at det blir gjort en crossover, og 30% at det blir en kopi av forelder
-    private static int maxRuns = 1;				// Maximum number of runs before termination
+    private static int maxRuns = 100;				// Maximum number of runs before termination
     private static int tournamentSize = 5;		// Number of individuals to choose from population at random
     // Eventuelt legge til "No improvement in the last 25 generations"
     
@@ -94,8 +94,6 @@ public class EvaluationAlgorithm {
 
             System.out.println("Result: " + bestSolution.getTotalCost());
             ob.add(bestSolution);
-            bestSolution.validate();
-            System.out.println(bestSolution.isValid());
 
             generation++;
         }
