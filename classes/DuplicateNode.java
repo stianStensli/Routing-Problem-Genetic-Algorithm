@@ -11,28 +11,26 @@ public class DuplicateNode {
         this.customerId = customerId;
     }
     public DuplicateNode(Customer customer) {
-
         this.customerId = customer.getId();
         this.c = customer;
     }
 
-
+    /*
+     * Getters and Setters
+     */
     public int getCustomerId() {
         return customerId;
     }
-
     public void setCustomerId(Customer customer) {
         this.c = customer;
         this.customerId = customerId;
     }
-
     public ArrayList<Vehicle> getVehicles() {
         return vehicles;
     }
     public Customer getCustomer() {
         return c;
     }
-
     public void addVehicle(Vehicle vehicle) {
         this.vehicles.add(vehicle);
     }

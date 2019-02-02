@@ -9,9 +9,6 @@ public class Vehicle {
     private int currentLoad = 0;
     private double duration = 0.0; // Route duration to Final Customer. Does not include end depot
     private ArrayList<Customer> customers = new ArrayList<>();
-
-
-
     private boolean valid = true;
 
     public Vehicle(Depot startDepot) {
@@ -28,7 +25,6 @@ public class Vehicle {
         for(Customer c : vehicle.customers){
             customers.add(c);
         }
-
     }
 
     /*
@@ -73,7 +69,6 @@ public class Vehicle {
     }
 
     public double getNewDiff(Customer c) {
-
         double[]  temp = getMinDistanceWithC(c, true);
 
         return temp[0]-duration;
@@ -118,7 +113,6 @@ public class Vehicle {
         currentLoad = load;
 
         endDepot = customers.get(customers.size() - 1).getClosestDepot();
-
     }
 
     public Boolean forceFitC(Customer c){
@@ -138,7 +132,6 @@ public class Vehicle {
     public boolean addCustomer(Customer c) {
         return addCustomer(c, customers.size()-1);
     }
-
     public boolean addCustomer(Customer c, int pos) {
         Double newDist = validateCustomer(c, pos);
         if (newDist != null) {
@@ -159,7 +152,6 @@ public class Vehicle {
         }
 
         double newLength = 0.0;
-
         newLength = getDistanceWithC(c,pos);
 
         //If new length is longer than the maximum size.
@@ -170,9 +162,7 @@ public class Vehicle {
         }
 
         return newLength;
-
     }
-
 
     public void removeCustomer(Customer c) {
         removeCustomer(c, -1);
@@ -189,7 +179,18 @@ public class Vehicle {
         }
 
         calcRouteDuration();
+    }
 
+    public Customer removeRandom() {
+        Customer c = customers.get((int)(Math.random()*customers.size()));
+        removeCustomer(c);
+        quickValidate();
+        return c;
+    }
+
+    public Customer removeCloseToPath(ArrayList<Vehicle> vehicles) {
+        quickValidate();
+        return null;
     }
 
     public void quickValidate(){
@@ -200,8 +201,8 @@ public class Vehicle {
         if(currentLoad > this.startDepot.getMaxLoad()){
             valid = false;
         }
-
     }
+
     /*
      * Getters and Setters
      */
@@ -220,25 +221,10 @@ public class Vehicle {
     public ArrayList<Customer> getCustomers() {
         return customers;
     }
-
     public double getRouteDuration() {
             return duration;
     }
-
     public boolean isValid() {
         return valid;
-    }
-
-    public Customer removeRandom() {
-        Customer c = customers.get((int)(Math.random()*customers.size()));
-        removeCustomer(c);
-        quickValidate();
-        return c;
-    }
-
-    public Customer removeCloseToPath(ArrayList<Vehicle> vehicles) {
-
-            quickValidate();
-            return null;
     }
 }

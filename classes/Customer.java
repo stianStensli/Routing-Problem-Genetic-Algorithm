@@ -2,8 +2,6 @@ package classes;
 
 import main.Run;
 
-import java.util.ArrayList;
-
 public class Customer extends PositionNode{
 
     private int id = 0; // Customer number
@@ -11,8 +9,6 @@ public class Customer extends PositionNode{
     private int demand = 0; // Demand for this customer
     private double closestDepotLength = 0; // How far until closest depot
     private Depot closestDepot; // The closest depot
-
-
 
     @Override
     public String toString() {
@@ -25,7 +21,6 @@ public class Customer extends PositionNode{
     public Customer(){
 
     }
-
     public Customer(int i, int x, int y, int d, int q) {
         super(x, y);
         this.id = i;
@@ -48,7 +43,6 @@ public class Customer extends PositionNode{
         }
         closestDepotLength = minDist;
     }
-
 
     /*
      * Getters and Setters
@@ -77,5 +71,4 @@ public class Customer extends PositionNode{
     public double getClosestDepotLength() {
         return closestDepotLength;
     }
-
 }

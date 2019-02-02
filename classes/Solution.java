@@ -1,23 +1,18 @@
 package classes;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import main.Run;
 
 public class Solution implements Comparable<Solution>{
-
     ArrayList<Vehicle> vehicles = new ArrayList<>();
     ArrayList<Customer> notPlaced = new ArrayList<>();
-
-
     private boolean valid = true;
-    double totalCost = 0; // Fitness score. Mulig ta 1/score
-    int nrCustomers = 0;
+    double totalCost = 0; // Fitness score
+    int numCustomers = 0;
 
     public Solution() { }
-
     public Solution(boolean initialize) {
         if(initialize) {
             initialize();
@@ -43,14 +38,15 @@ public class Solution implements Comparable<Solution>{
             return -1;
         }
 
-        if(comp.nrCustomers > this.nrCustomers){
+        if(comp.numCustomers > this.numCustomers){
             return -1;
-        }else if(comp.nrCustomers == this.nrCustomers){
+        }else if(comp.numCustomers == this.numCustomers){
             return 0;
         }else{
             return 1;
         }
     }
+
     /*
      * Methods
      */
@@ -96,7 +92,6 @@ public class Solution implements Comparable<Solution>{
         if(!valid){
             repair();
         }
-
     }
 
     public void repair(){
@@ -110,18 +105,11 @@ public class Solution implements Comparable<Solution>{
             }
             itr++;
         }
-        if(valid){
-            //System.out.println("Success");
-        }else {
-            //System.out.println("Uhhh");
-            valid = false;
-        }
+
         calculateTotalCost();
-
-
     }
 
-    private  ArrayList<Vehicle> placeRemaining(){
+    private ArrayList<Vehicle> placeRemaining(){
         ArrayList<Vehicle> invalid = new ArrayList<>();
 
         int itr = 0;
@@ -165,14 +153,13 @@ public class Solution implements Comparable<Solution>{
                 notPlaced.add(v.removeRandom());
             }
         }
-
     }
 
     public void calculateTotalCost(){
         if(!valid ){
-            nrCustomers = 0;
+            numCustomers = 0;
             for(Vehicle v : vehicles){
-                nrCustomers += v.getCustomers().size();
+                numCustomers += v.getCustomers().size();
             }
         }else{
             totalCost = 0.0;
@@ -226,6 +213,7 @@ public class Solution implements Comparable<Solution>{
             }
         }
     }
+
     public void validate(){
         valid = true;
         if(notPlaced.size() >0){
@@ -241,7 +229,6 @@ public class Solution implements Comparable<Solution>{
     public void mutate(double mutationRate) {
         swapMutate(mutationRate);
     }
-
     private void swapMutate(double mutationRate) {
         for(Vehicle vehicle : vehicles) {
             if(Math.random() <= mutationRate && vehicle.getCustomers().size() > 1) {

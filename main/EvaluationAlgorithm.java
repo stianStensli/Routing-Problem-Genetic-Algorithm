@@ -3,19 +3,15 @@ package main;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import classes.Customer;
 import classes.Solution;
 import classes.Vehicle;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
 
 public class EvaluationAlgorithm {
     private static int popSize = 150; // Population size
     private static int numOffsprings = 15; // Number of offsprings
-    private static boolean survival = true; // true=Elitism and false=Generational. I elitism så overlever foreldrene (the fittest) til neste generasjon
+    private static boolean survival = true; // true=Elitism and false=Generational
     private static double mutationRate = 0.2; // Mutation rate
-    private static double recombProbability = 0.7; // Kun for generational. For hver forelder som blir valgt, er det 70% sjanse for at det blir gjort en crossover, og 30% at det blir en kopi av forelder
+    private static double recombProbability = 0.7; // Used only for Generational. recombProbability of doing crossover, and 1-recombProbability of copying a parent
     private static int maxRuns = 100; // Maximum number of runs before termination
     private static int tournamentSize = 5; // Number of individuals to choose from population at random
     // Eventuelt legge til "No improvement in the last 25 generations"
@@ -24,7 +20,6 @@ public class EvaluationAlgorithm {
     private static Solution bestSolution;
     private ArrayList<Solution> ob;
     private AtomicInteger generation = new AtomicInteger(0);
-    Random r = new Random();
     
     /*
      * Algorithm
@@ -68,7 +63,7 @@ public class EvaluationAlgorithm {
 
                 // Mutation
                 for(Solution child : offspringsTemp){
-                    //mutate(child);
+                    mutate(child);
                     if(child.isValid()){
                         offsprings.add(child);
                     }
@@ -93,8 +88,6 @@ public class EvaluationAlgorithm {
             }
 
             bestSolution = population.get(0);
-
-            //System.out.println("Result: " + bestSolution.getTotalCost());
             ob.add(bestSolution);
         }
     }
@@ -107,7 +100,7 @@ public class EvaluationAlgorithm {
 
     	for(int i = 0; i < tournamentSize; i++) {
     	    while(true) {
-                int randomIndex = r.nextInt(population.size());
+                int randomIndex = (int) (Math.random()*population.size());
                 Solution tempSolution = population.get(randomIndex);
 
     	        if(!tournament.contains(tempSolution)) {
@@ -141,10 +134,10 @@ public class EvaluationAlgorithm {
             // Remove duplicates
             offspring.removeDuplicateCustomers();
 
-            // Check if all customers are in solution
+            // Find potential customers that has no vehicle assigned to it
             offspring.updateMissingCustomers();
 
-            // Make valid
+            // Make the solution valid, meaning all customers are used and no constraints are broken
             offspring.validate();
             offspring.repair();
         }

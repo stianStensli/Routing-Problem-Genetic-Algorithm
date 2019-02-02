@@ -18,23 +18,18 @@ public class Depot extends PositionNode{
     public int getId() {
         return id;
     }
-
     public void setId(int i) {
         this.id = i;
     }
-
     public double getMaxDuration() {
         return maxDuration;
     }
-
     public void setMaxDuration(int d) {
         this.maxDuration = d;
     }
-
     public int getMaxLoad() {
         return maxLoad;
     }
-
     public void setMaxLoad(int maxLoad) {
         this.maxLoad = maxLoad;
     }
