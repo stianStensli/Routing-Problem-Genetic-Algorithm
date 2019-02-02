@@ -8,7 +8,7 @@ import classes.Vehicle;
 
 public class EvaluationAlgorithm {
     private static int popSize = 150; // Population size
-    private static int numOffsprings = 15; // Number of offsprings
+    private static int numOffsprings = 10; // Number of offsprings
     private static boolean survival = true; // true=Elitism and false=Generational
     private static double mutationRate = 0.2; // Mutation rate
     private static double recombProbability = 0.7; // Used only for Generational. recombProbability of doing crossover, and 1-recombProbability of copying a parent
@@ -114,8 +114,25 @@ public class EvaluationAlgorithm {
 
         return new Solution[]{tournament.get(0), tournament.get(1)};
     }
-    
+
     public Solution[] crossover(Solution father, Solution mother) {
+        Solution[] offsprings = uniformCrossover(father, mother);
+
+        for(Solution offspring : offsprings) {
+            // Remove duplicates
+            offspring.removeDuplicateCustomers();
+
+            // Find potential customers that has no vehicle assigned to it
+            offspring.updateMissingCustomers();
+
+            // Make the solution valid, meaning all customers are used and no constraints are broken
+            offspring.validate();
+            offspring.repair();
+        }
+
+        return offsprings;
+    }
+    public Solution[] singlePointCrossover(Solution father, Solution mother) {
     	int crossoverPoint = (int) (Math.random()*(father.getVehicles().size() - 2));
         Solution[] offsprings = new Solution[]{new Solution(), new Solution()};
 
@@ -130,19 +147,23 @@ public class EvaluationAlgorithm {
             }
         }
 
-        for(Solution offspring : offsprings) {
-            // Remove duplicates
-            offspring.removeDuplicateCustomers();
+    	return offsprings;
+    }
+    public Solution[] uniformCrossover(Solution father, Solution mother) {
+        Solution[] offsprings = new Solution[]{new Solution(), new Solution()};
 
-            // Find potential customers that has no vehicle assigned to it
-            offspring.updateMissingCustomers();
-
-            // Make the solution valid, meaning all customers are used and no constraints are broken
-            offspring.validate();
-            offspring.repair();
+        for(int i = 0; i < father.getVehicles().size(); i++) {
+            if(Math.random() < 0.5) {
+                offsprings[0].addVehicle(new Vehicle(father.getVehicles().get(i)));
+                offsprings[1].addVehicle(new Vehicle(mother.getVehicles().get(i)));
+            }
+            else {
+                offsprings[0].addVehicle(new Vehicle(mother.getVehicles().get(i)));
+                offsprings[1].addVehicle(new Vehicle(father.getVehicles().get(i)));
+            }
         }
 
-    	return offsprings;
+        return offsprings;
     }
     
     public void mutate(Solution solution) {
