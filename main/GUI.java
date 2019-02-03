@@ -144,8 +144,8 @@ public class GUI implements Initializable {
 
     public void drawPath(Solution s){
         gc.setLineWidth(2);
-        Color[] colors = {Color.rgb(0,0,0), Color.rgb(1,0,103), Color.rgb(67,208,47), Color.rgb(255,0,86), Color.rgb(158,0,142), Color.rgb(14,76,161), Color.rgb(255,229,2), Color.rgb(0,95,57), Color.rgb(0,255,0), Color.rgb(149,0,58), Color.rgb(101,21,234), Color.rgb(0,21,68), Color.rgb(145,208,203), Color.rgb(107,104,130), Color.rgb(0,0,255), Color.rgb(0,125,181), Color.rgb(106,130,108), Color.rgb(0,174,126), Color.rgb(194,140,159), Color.rgb(255,0,246), Color.rgb(190,153,112), Color.rgb(0,143,156), Color.rgb(95,173,78), Color.rgb(255,0,0), Color.rgb(255,2,157), Color.rgb(104,61,59), Color.rgb(35,5,152), Color.rgb(150,138,232), Color.rgb(152,255,82), Color.rgb(167,87,64), Color.rgb(1,255,254), Color.rgb(136,11,11), Color.rgb(254,137,0), Color.rgb(189,198,255), Color.rgb(1,208,255), Color.rgb(187,136,0), Color.rgb(117,68,177), Color.rgb(165,255,210), Color.rgb(255,166,254), Color.rgb(119,77,0)};
-
+        Color[] colors = {Color.rgb(0,0,0), Color.rgb(1,0,103), Color.rgb(67,208,47), Color.rgb(255,0,86), Color.rgb(158,0,142), Color.rgb(14,76,161), Color.rgb(255,229,2), Color.rgb(0,95,57), Color.rgb(0,255,0), Color.rgb(149,0,58), Color.rgb(101,21,234), Color.rgb(0,21,68), Color.rgb(145,208,203), Color.rgb(107,104,130), Color.rgb(0,0,255), Color.rgb(0,125,181), Color.rgb(106,130,108), Color.rgb(0,174,126), Color.rgb(194,140,159), Color.rgb(255,0,246), Color.rgb(190,153,112), Color.rgb(0,143,156), Color.rgb(95,173,78), Color.rgb(255,0,0), Color.rgb(255,2,157), Color.rgb(104,61,59), Color.rgb(35,5,152), Color.rgb(150,138,232), Color.rgb(152,255,82), Color.rgb(167,87,64), Color.rgb(1,255,254), Color.rgb(136,11,11), Color.rgb(254,137,0), Color.rgb(189,198,255), Color.rgb(1,208,255), Color.rgb(187,136,0), Color.rgb(117,68,177), Color.rgb(165,255,210), Color.rgb(255,166,254), Color.rgb(119,77,0), Color.rgb(29,50,103), Color.rgb(23,253,20), Color.rgb(255,0,150), Color.rgb(232,12,56), Color.rgb(98,34,55)};
+        
         int i = 0;
         for(Vehicle vehicle : s.getVehicles()) {
             gc.setStroke(colors[i]);
