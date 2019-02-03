@@ -8,7 +8,7 @@ import classes.Vehicle;
 
 public class EvaluationAlgorithm {
     private static int popSize = 100; // Population size
-    private static int numOffsprings = 15; // Number of offsprings
+    private static int numOffsprings = 10; // Number of offsprings
     private static boolean survival = true; // true=Elitism and false=Generational
     private static double mutationRate = 0.1; // Mutation rate
     private static double recombProbability = 0.7; // Used only for Generational. recombProbability of doing crossover, and 1-recombProbability of copying a parent
