@@ -98,6 +98,7 @@ public class Vehicle {
             duration = distance;
             currentLoad = load;
 
+            endDepot = startDepot;
             return;
         }
 
