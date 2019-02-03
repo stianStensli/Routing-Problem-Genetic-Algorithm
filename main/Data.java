@@ -1,16 +1,19 @@
 package main;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Collections;
+import java.util.Locale;
 
 import classes.Customer;
 import classes.Depot;
+import classes.Solution;
+import classes.Vehicle;
 
 public class Data {
-
     public static void ReadData(String filename) {
         clearOldValues();
 
@@ -22,6 +25,7 @@ public class Data {
             FileReader fileReader = new FileReader(filename);
 
             BufferedReader bufferedReader = new BufferedReader(fileReader);
+
 
             while((line = bufferedReader.readLine()) != null) {
                 // Remove double space
@@ -50,7 +54,8 @@ public class Data {
                 }
                 // Update data about depots
                 else {
-                    Run.depots.get(depotsCounter).setId(sLine[0]);
+                    //Run.depots.get(depotsCounter).setId(sLine[0]);
+                    Run.depots.get(depotsCounter).setId(depotsCounter+1);
                     Run.depots.get(depotsCounter).setX(sLine[1]);
                     Run.depots.get(depotsCounter).setY(sLine[2]);
                     depotsCounter++;
@@ -72,6 +77,45 @@ public class Data {
             ex.printStackTrace();
         }
     }
+
+    public static void SolutionToFile(Solution solution) {
+        BufferedWriter out = null;
+
+        DecimalFormatSymbols format = new DecimalFormatSymbols(Locale.ENGLISH);
+        DecimalFormat f = new DecimalFormat("00.00", format);
+
+        String output = f.format(solution.getTotalCost()) + "\r\n";
+        for(Vehicle vehicle : solution.getVehicles()) {
+            output += vehicle.getStartDepot().getId() + "\t";
+            output += vehicle.getIdForDepot() + "\t";
+            output += f.format(vehicle.getRouteDuration()) + "\t";
+            output += vehicle.getCurrentLoad() + "\t";
+            output += vehicle.getEndDepot().getId() + "\t";
+
+            for(Customer customer : vehicle.getCustomers()) {
+                output += customer.getId() + " ";
+            }
+
+            output += "\r\n";
+        }
+
+        try {
+            File file = new File("p01.res");
+            out = new BufferedWriter(new FileWriter(file));
+            out.write(output);
+            out.close();
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private static double round(double value) {
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
     private static void calculateClosestDepots(){
         for(Customer c : Run.customers){
             c.findNearestEndDepot();
@@ -84,7 +128,5 @@ public class Data {
             Run.t = 0;
             Run.m = 0;
             Run.n = 0;
-
     }
-
 }

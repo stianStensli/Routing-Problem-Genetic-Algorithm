@@ -3,7 +3,7 @@ package classes;
 import java.util.ArrayList;
 
 public class Vehicle {
-
+    private int idForDepot = 0;
     private Depot startDepot;
     private Depot endDepot = null;
     private int currentLoad = 0;
@@ -11,12 +11,14 @@ public class Vehicle {
     private ArrayList<Customer> customers = new ArrayList<>();
     private boolean valid = true;
 
-    public Vehicle(Depot startDepot) {
+    public Vehicle(int idForDepot, Depot startDepot) {
+        this.idForDepot = idForDepot;
         this.startDepot = startDepot;
         this.endDepot = startDepot;
     }
 
     public Vehicle(Vehicle vehicle) {
+        this.idForDepot = vehicle.idForDepot;
         this.startDepot = vehicle.startDepot;
         this.endDepot = vehicle.endDepot;
         this.duration = vehicle.duration;
@@ -206,23 +208,26 @@ public class Vehicle {
     /*
      * Getters and Setters
      */
+    public int getIdForDepot() {
+        return this.idForDepot;
+    }
     public Depot getStartDepot() {
-        return startDepot;
+        return this.startDepot;
     }
     public void setStartDepot(Depot startDepot) {
         this.startDepot = startDepot;
     }
     public Depot getEndDepot() {
-        return endDepot;
+        return this.endDepot;
     }
     public int getCurrentLoad() {
-        return currentLoad;
+        return this.currentLoad;
     }
     public ArrayList<Customer> getCustomers() {
-        return customers;
+        return this.customers;
     }
     public double getRouteDuration() {
-            return duration;
+            return this.duration;
     }
-    public boolean isValid() { return valid; }
+    public boolean isValid() { return this.valid; }
 }

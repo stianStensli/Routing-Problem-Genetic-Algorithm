@@ -89,6 +89,8 @@ public class EvaluationAlgorithm {
 
             bestSolution = population.get(0);
             ob.add(bestSolution);
+
+            Data.SolutionToFile(bestSolution);
         }
     }
 

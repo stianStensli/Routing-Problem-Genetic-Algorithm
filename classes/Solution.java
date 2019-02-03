@@ -54,7 +54,7 @@ public class Solution implements Comparable<Solution>{
         // Create vehicles and assign to depots
         for(int i = 0; i < Run.t; i++) {
             for(int j = 0; j < Run.m; j++) {
-                vehicles.add(new Vehicle(Run.depots.get(i)));
+                vehicles.add(new Vehicle((j+1), Run.depots.get(i)));
             }
         }
 

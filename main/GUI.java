@@ -107,7 +107,6 @@ public class GUI implements Initializable {
         Data.ReadData("./src/Data Files/"+cBox.getValue());
         calcRecSizeAndOffest();
         drawShapes();
-
     }
     @FXML
     public void calculate(){
