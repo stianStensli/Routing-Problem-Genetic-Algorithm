@@ -94,12 +94,24 @@ public class Solution implements Comparable<Solution>{
         }
     }
 
+    public void validate(){
+        valid = true;
+        if(notPlaced.size() > 0){
+            valid = false;
+        }
+        for(Vehicle v : vehicles){
+            if(!v.isValid()){
+                valid = false;
+            }
+        }
+    }
+
     public void repair(){
         int itr = 0;
         while (!valid && itr < 999) {
             if(notPlaced.size() == 0){
                 valid = true;
-            }else{
+            } else {
                 ArrayList<Vehicle> inValid = placeRemaining();
                 makeValid(inValid);
             }
@@ -214,20 +226,8 @@ public class Solution implements Comparable<Solution>{
         }
     }
 
-    public void validate(){
-        valid = true;
-        if(notPlaced.size() >0){
-            valid = false;
-        }
-        for(Vehicle v : vehicles){
-            if(!v.isValid()){
-                valid = false;
-            }
-        }
-    }
-
     public void mutate(double mutationRate) {
-        swapMutate(mutationRate);
+        randomDeleteMutate(mutationRate);
     }
     private void swapMutate(double mutationRate) {
         for(Vehicle vehicle : vehicles) {
@@ -242,20 +242,42 @@ public class Solution implements Comparable<Solution>{
             }
         }
     }
+    private void randomDeleteMutate(double mutationRate) {
+        // Fjerne potensielt mange customers per vehicle
+        for(int i = 0; i < vehicles.size(); i++) {
+            boolean subtract = false;
+            for(int j = 0; j < vehicles.get(i).getCustomers().size(); j++) {
+                if (Math.random() <= mutationRate) {
+                    Customer removed = vehicles.get(i).removeRandom();
+                    notPlaced.add(removed);
+                }
+            }
+            if(subtract && i > 0) {
+                i--;
+            }
+        }
+
+        // Fjerne potensielt en customer per vehicle
+        /*
+        for(int i = 0; i < vehicles.size(); i++) {
+            if (vehicles.get(i).getCustomers().size() > 0) {
+                if (Math.random() <= mutationRate) {
+                    Customer removed = vehicles.get(i).removeRandom();
+                    notPlaced.add(removed);
+                    if(i > 0) {
+                        i--;
+                    }
+                }
+            }
+        }
+        */
+    }
 
     /*
      * Getters and Setters
      */
-    public ArrayList<Vehicle> getVehicles() {
-        return vehicles;
-    }
-    public double getTotalCost() {
-        return totalCost;
-    }
-    public void addVehicle(Vehicle v) {
-        this.vehicles.add(v);
-    }
-    public boolean isValid() {
-        return valid;
-    }
+    public ArrayList<Vehicle> getVehicles() { return vehicles; }
+    public double getTotalCost() { return totalCost; }
+    public void addVehicle(Vehicle v) { this.vehicles.add(v); }
+    public boolean isValid() { return valid; }
 }

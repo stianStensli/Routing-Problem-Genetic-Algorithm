@@ -225,7 +225,5 @@ public class Vehicle {
     public double getRouteDuration() {
             return duration;
     }
-    public boolean isValid() {
-        return valid;
-    }
+    public boolean isValid() { return valid; }
 }
