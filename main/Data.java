@@ -78,7 +78,7 @@ public class Data {
         }
     }
 
-    public static void SolutionToFile(Solution solution) {
+    public static void SolutionToFile(Solution solution, String filename) {
         BufferedWriter out = null;
 
         DecimalFormatSymbols format = new DecimalFormatSymbols(Locale.ENGLISH);
@@ -86,21 +86,23 @@ public class Data {
 
         String output = f.format(solution.getTotalCost()) + "\r\n";
         for(Vehicle vehicle : solution.getVehicles()) {
-            output += vehicle.getStartDepot().getId() + "\t";
-            output += vehicle.getIdForDepot() + "\t";
-            output += f.format(vehicle.getRouteDuration()) + "\t";
-            output += vehicle.getCurrentLoad() + "\t";
-            output += vehicle.getEndDepot().getId() + "\t";
+            if(vehicle.getCustomers().size() > 0 ) {
+                output += vehicle.getStartDepot().getId() + "\t";
+                output += vehicle.getIdForDepot() + "\t";
+                output += f.format(vehicle.getRouteDuration()) + "\t";
+                output += vehicle.getCurrentLoad() + "\t";
+                output += vehicle.getEndDepot().getId() + "\t";
 
-            for(Customer customer : vehicle.getCustomers()) {
-                output += customer.getId() + " ";
+                for (Customer customer : vehicle.getCustomers()) {
+                    output += customer.getId() + " ";
+                }
+
+                output += "\r\n";
             }
-
-            output += "\r\n";
         }
 
         try {
-            File file = new File("p01.res");
+            File file = new File(filename + ".res");
             out = new BufferedWriter(new FileWriter(file));
             out.write(output);
             out.close();

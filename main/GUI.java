@@ -103,6 +103,13 @@ public class GUI implements Initializable {
     }
 
     @FXML
+    public void writeFile() {
+        if(bestSolution != null) {
+            Data.SolutionToFile(bestSolution, (String) cBox.getValue());
+        }
+    }
+
+    @FXML
     public void changeFile(){
         Data.ReadData("./src/Data Files/"+cBox.getValue());
         calcRecSizeAndOffest();
@@ -235,22 +242,14 @@ public class GUI implements Initializable {
         lineOffset = recSize / 2+padding;
     }
 
-
-
     public void initListener(){
         intList = new ArrayList();
 
-        new AnimationTimer()
-        {
-            public void handle(long currentNanoTime)
-            {
+        new AnimationTimer() {
+            public void handle(long currentNanoTime) {
                 if(intList.size() > solutionSize){
-
                     solutionSize = intList.size();
                     if(bestSolution == null || !bestSolution.equals(intList.get(solutionSize-1)) || EvaluationAlgorithm.getMaxRuns() == solutionSize+1){
-                        if(bestSolution == null) {
-                            bestSolution = intList.get(solutionSize - 1);
-                        }
                         bestSolution = intList.get(solutionSize-1);
                         drawShapes();
                         drawPath(bestSolution);
