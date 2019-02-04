@@ -10,10 +10,10 @@ public class EvaluationAlgorithm {
     private static int popSize = 100; // Population size
     private static int numOffsprings = 10; // Number of offsprings
     private static boolean survival = true; // true=Elitism and false=Generational
-    private static double mutationRate = 0.05; // Mutation rate
+    private static double mutationRate = 0.08; // Mutation rate
     private static double recombProbability = 0.7; // Used only for Generational. recombProbability of doing crossover, and 1-recombProbability of copying a parent
     private static int maxRuns = 100; // Maximum number of runs before termination
-    private static int tournamentSize = 5; // Number of individuals to choose from population at random
+    private static int tournamentSize = 20; // Number of individuals to choose from population at random
     // Eventuelt legge til "No improvement in the last 25 generations"
     
     private static ArrayList<Solution> population;
@@ -56,7 +56,7 @@ public class EvaluationAlgorithm {
 
             while(offsprings.size() < numOffsprings) {
                 // Selection
-                Solution[] selected = tournamentSelection();
+                Solution[] selected = rankSelection();//tournamentSelection();
 
                 // Crossover
                 Solution[] offspringsTemp = crossover(selected[0], selected[1]);
@@ -95,28 +95,49 @@ public class EvaluationAlgorithm {
     /*
      * Methods
      */
-    public Solution[] tournamentSelection() {
-    	List<Solution> tournament = new ArrayList<>();
+       public Solution[] tournamentSelection() {
+        List<Solution> tournament = new ArrayList<>();
 
-    	for(int i = 0; i < tournamentSize; i++) {
-    	    while(true) {
+        for(int i = 0; i < tournamentSize; i++) {
+            while(true) {
                 int randomIndex = (int) (Math.random()*population.size());
                 Solution tempSolution = population.get(randomIndex);
 
-    	        if(!tournament.contains(tempSolution)) {
-    	            tournament.add(tempSolution);
-    	            break;
+                if(!tournament.contains(tempSolution)) {
+                    tournament.add(tempSolution);
+                    break;
                 }
             }
         }
 
-    	Collections.sort(tournament);
+        Collections.sort(tournament);
 
         return new Solution[]{tournament.get(0), tournament.get(1)};
     }
 
+    public Solution[] rankSelection() {
+        Collections.sort(population);
+
+        LinkedList<Solution> topN = new LinkedList<>();
+
+        while(topN.size() < tournamentSize) {
+            topN.add(population.get(topN.size()));
+        }
+        Collections.shuffle(topN);
+
+        return new Solution[]{topN.pop(), topN.pop()};
+    }
+
+
     public Solution[] crossover(Solution father, Solution mother) {
-        Solution[] offsprings = singlePointCrossover(father, mother);
+        Solution[] offsprings;
+
+        if(Math.random() < recombProbability) {
+            offsprings = singlePointCrossover(father, mother);
+        }else{
+            offsprings = new Solution[]{new Solution(father), new Solution(mother)};
+        }
+
 
         for(Solution offspring : offsprings) {
             // Remove duplicates

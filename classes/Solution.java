@@ -18,6 +18,11 @@ public class Solution implements Comparable<Solution>{
             initialize();
         }
     }
+    public Solution(Solution other) {
+        for(int i = 0; i < other.getVehicles().size(); i++) {
+            this.addVehicle(new Vehicle(other.getVehicles().get(i)));
+        }
+    }
 
     @Override
     public int compareTo(Solution comp) {
