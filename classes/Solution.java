@@ -68,28 +68,25 @@ public class Solution implements Comparable<Solution>{
             Vehicle tempVehicle = null;
             Customer c = Run.customers.get(i);
 
-            Depot closestDepot = c.getClosestDepot();
-
             double minAddedDistance = Double.MAX_VALUE;
             int index = -1;
+
             for(Vehicle v : vehicles){
-                    double[] newDist = v.getMinDistanceWithC(c,false);
-                    if(newDist[1] != -1){
-                        if(minAddedDistance > newDist[0]){
-                            minAddedDistance = newDist[0];
-                            index = (int)newDist[1];
-                            tempVehicle = v;
-                        }
+                double[] newDist = v.getMinDistanceWithC(c,false);
+                if(newDist[1] != -1){
+                    if(minAddedDistance > newDist[0]){
+                        minAddedDistance = newDist[0];
+                        index = (int)newDist[1];
+                        tempVehicle = v;
                     }
+                }
             }
 
             if (tempVehicle == null){
-                //System.err.println("No Valid Solution found! This needs to be fixed!!!");
                 notPlaced.add(c);
                 valid = false;
                 totalCost = Double.MAX_VALUE;
-
-            } else{
+            } else {
                 tempVehicle.addCustomer(c,index);
             }
         }
@@ -99,22 +96,22 @@ public class Solution implements Comparable<Solution>{
         }
     }
 
-    public void validate(){
+    public void validate() {
         valid = true;
-        if(notPlaced.size() > 0){
+        if(notPlaced.size() > 0) {
             valid = false;
         }
-        for(Vehicle v : vehicles){
-            if(!v.isValid()){
+        for(Vehicle v : vehicles) {
+            if(!v.isValid()) {
                 valid = false;
             }
         }
     }
 
-    public void repair(){
+    public void repair() {
         int itr = 0;
         while (!valid && itr < 999) {
-            if(notPlaced.size() == 0){
+            if(notPlaced.size() == 0) {
                 valid = true;
             } else {
                 ArrayList<Vehicle> inValid = placeRemaining();
@@ -122,45 +119,43 @@ public class Solution implements Comparable<Solution>{
             }
             itr++;
         }
-
         calculateTotalCost();
     }
 
-    private ArrayList<Vehicle> placeRemaining(){
+    private ArrayList<Vehicle> placeRemaining() {
         ArrayList<Vehicle> invalid = new ArrayList<>();
 
         int itr = 0;
 
-        while (notPlaced.size() != 0 && itr < 1000){
+        while (notPlaced.size() != 0 && itr < 1000) {
             int rIndex = (int) (Math.random()*notPlaced.size());
             Customer c = notPlaced.get(rIndex);
             double minDiff = Double.MAX_VALUE;
             Vehicle addTo = null;
 
-            for(Vehicle v : vehicles){
+            for(Vehicle v : vehicles) {
                 double temp = v.getNewDiff(c);
                 if(temp < minDiff){
                     minDiff = temp;
                     addTo = v;
                 }
             }
-            if(addTo == null){
+            if(addTo == null) {
                 System.err.println("ERROR! Solution make Valid");
-            }else{
+            }else {
                 boolean validForce = addTo.forceFitC(c);
                 notPlaced.remove(c);
 
                 if(!validForce && !invalid.contains(addTo)){
                         invalid.add(addTo);
                 }
-
             }
             itr++;
         }
         return invalid;
     }
 
-    private void makeValid(ArrayList<Vehicle> inValid){
+    private void makeValid(ArrayList<Vehicle> inValid) {
         if(inValid.size() == 0){
             valid = true;
             return;
@@ -172,7 +167,7 @@ public class Solution implements Comparable<Solution>{
         }
     }
 
-    public void calculateTotalCost(){
+    public void calculateTotalCost() {
         if(!valid ){
             numCustomers = 0;
             for(Vehicle v : vehicles){
@@ -206,13 +201,13 @@ public class Solution implements Comparable<Solution>{
                 boolean notFound = true;
                 DuplicateNode temp = new DuplicateNode(customer.getId());
 
-                for(DuplicateNode n : tempDuplicates){
+                for(DuplicateNode n : tempDuplicates) {
                     if(n.equals(temp)){
                         n.addVehicle(vehicle);
                         notFound = false;
                     }
                 }
-                if(notFound){
+                if(notFound) {
                     DuplicateNode node = new DuplicateNode(customer);
                     node.addVehicle(vehicle);
                     tempDuplicates.add(node);

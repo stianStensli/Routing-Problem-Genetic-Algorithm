@@ -34,36 +34,32 @@ public class Vehicle {
      */
     private double getDistanceWithC(Customer c, int pos) {
         double distance = 0.0;
-        if(customers.size() == 0){
+        if(customers.size() == 0) {
             distance += PositionNode.distanceTo(c, startDepot);
             distance += c.getClosestDepotLength();
             return distance;
         }
-        for(int i = 0; i < customers.size(); i++){
-         if(i == pos){
-             if(i == 0){
-                 distance += PositionNode.distanceTo(c,startDepot);
-                 distance += PositionNode.distanceTo(customers.get(i), c);
+        for(int i = 0; i < customers.size(); i++) {
+            if(i == pos) {
+                if(i == 0) {
+                distance += PositionNode.distanceTo(c,startDepot);
+                distance += PositionNode.distanceTo(customers.get(i), c);
 
-             }else{
-                 distance += PositionNode.distanceTo(c,customers.get(i-1));
-                 distance += PositionNode.distanceTo(customers.get(i), c);
-
-             }
-         }else if(i == 0){
-             distance += PositionNode.distanceTo(customers.get(i),startDepot);
-
-         }else{
-             distance += PositionNode.distanceTo(customers.get(i),customers.get(i-1));
-         }
-
+                } else {
+                    distance += PositionNode.distanceTo(c,customers.get(i-1));
+                    distance += PositionNode.distanceTo(customers.get(i), c);
+                }
+            } else if(i == 0) {
+                distance += PositionNode.distanceTo(customers.get(i),startDepot);
+            } else {
+                distance += PositionNode.distanceTo(customers.get(i),customers.get(i-1));
+            }
         }
 
-        if(customers.size() == pos){
+        if(customers.size() == pos) {
             distance += PositionNode.distanceTo(c, customers.get(customers.size()-1));
             distance += c.getClosestDepotLength();
-
-        }else{
+        } else {
             distance += customers.get(customers.size()-1).getClosestDepotLength();
         }
 
@@ -72,11 +68,10 @@ public class Vehicle {
 
     public double getNewDiff(Customer c) {
         double[]  temp = getMinDistanceWithC(c, true);
-
         return temp[0]-duration;
     }
 
-    public double[] getMinDistanceWithC(Customer c, boolean notValid){
+    public double[] getMinDistanceWithC(Customer c, boolean notValid) {
         double minDistance = Double.MAX_VALUE;
         double index = -1;
 
@@ -93,13 +88,13 @@ public class Vehicle {
         return new double[]{minDistance, index};
     }
 
-    public void calcRouteDuration(){
+    public void calcRouteDuration() {
         double distance = 0.0;
         int load = 0;
-        if(customers.size() == 0){
+
+        if(customers.size() == 0) {
             duration = distance;
             currentLoad = load;
-
             endDepot = startDepot;
             return;
         }
@@ -118,12 +113,11 @@ public class Vehicle {
         endDepot = customers.get(customers.size() - 1).getClosestDepot();
     }
 
-    public Boolean forceFitC(Customer c){
+    public Boolean forceFitC(Customer c) {
         double[]  temp = getMinDistanceWithC(c, true);
         int index = (int)temp[1];
 
         customers.add(index, c);
-
         duration = temp[0];
         currentLoad += c.getDemand();
         endDepot = customers.get(customers.size() - 1).getClosestDepot();

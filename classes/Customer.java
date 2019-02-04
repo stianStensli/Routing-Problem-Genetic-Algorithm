@@ -10,14 +10,6 @@ public class Customer extends PositionNode{
     private double closestDepotLength = 0; // How far until closest depot
     private Depot closestDepot; // The closest depot
 
-    @Override
-    public String toString() {
-        return this.id + "";
-    }
-
-    /*
-     * Methods
-     */
     public Customer(){
 
     }
@@ -28,15 +20,23 @@ public class Customer extends PositionNode{
         this.demand = q;
     }
 
+    /*
+     * Methods
+     */
+    @Override
+    public String toString() {
+        return this.id + "";
+    }
+
     public void findNearestEndDepot() {
         double minDist = 0.0;
 
-        for(Depot depot: Run.depots){
+        for(Depot depot: Run.depots) {
             double dist = PositionNode.distanceTo(this, depot);
-            if(closestDepot == null){
+            if(closestDepot == null) {
                 closestDepot = depot;
                 minDist = dist;
-            } else if(dist < minDist){
+            } else if(dist < minDist) {
             	closestDepot = depot;
             	minDist = dist;
             }
