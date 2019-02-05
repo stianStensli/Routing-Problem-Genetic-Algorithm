@@ -68,7 +68,6 @@ public class Data {
 
             // Update customers and set nearest depot
             calculateClosestDepots();
-
         }
         catch(FileNotFoundException ex) {
             System.out.println("Couldn't find file");
@@ -92,11 +91,9 @@ public class Data {
                 output += f.format(vehicle.getRouteDuration()) + "\t";
                 output += vehicle.getCurrentLoad() + "\t";
                 output += vehicle.getEndDepot().getId() + "\t";
-
                 for (Customer customer : vehicle.getCustomers()) {
                     output += customer.getId() + " ";
                 }
-
                 output += "\r\n";
             }
         }
@@ -112,12 +109,6 @@ public class Data {
         }
     }
 
-    private static double round(double value) {
-        BigDecimal bd = new BigDecimal(Double.toString(value));
-        bd = bd.setScale(2, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
-
     private static void calculateClosestDepots(){
         for(Customer c : Run.customers){
             c.findNearestEndDepot();
@@ -127,8 +118,8 @@ public class Data {
     private static void clearOldValues(){
         Run.customers.clear();
         Run.depots.clear();
-            Run.t = 0;
-            Run.m = 0;
-            Run.n = 0;
+        Run.t = 0;
+        Run.m = 0;
+        Run.n = 0;
     }
 }

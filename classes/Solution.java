@@ -5,12 +5,13 @@ import java.util.Collections;
 
 import main.Run;
 
+// A solution is a chromosome
 public class Solution implements Comparable<Solution>{
-    ArrayList<Vehicle> vehicles = new ArrayList<>();
-    ArrayList<Customer> notPlaced = new ArrayList<>();
-    private boolean valid = true;
+    ArrayList<Vehicle> vehicles = new ArrayList<>(); // Vehicles containing a list of customers, which in combination makes up the routes
+    ArrayList<Customer> notPlaced = new ArrayList<>(); // Customers that hasn't been placed in any vehicle (route)
+    private boolean valid = true; // For a Solution to be valid, all vehicles (routes) has to be valid
     double totalCost = 0; // Fitness score
-    int numCustomers = 0;
+    int numCustomers = 0; // Number of customers in a route
 
     public Solution() { }
     public Solution(boolean initialize) {
@@ -18,36 +19,36 @@ public class Solution implements Comparable<Solution>{
             initialize();
         }
     }
-    public Solution(Solution other) {
-        for(int i = 0; i < other.getVehicles().size(); i++) {
-            this.addVehicle(new Vehicle(other.getVehicles().get(i)));
+    public Solution(Solution clone) {
+        for(int i = 0; i < clone.getVehicles().size(); i++) {
+            this.addVehicle(new Vehicle(clone.getVehicles().get(i)));
         }
     }
 
     @Override
     public int compareTo(Solution comp) {
-        if(comp.valid && this.valid){
-            if(comp.totalCost > this.totalCost){
+        if(comp.valid && this.valid) {
+            if(comp.totalCost > this.totalCost) {
                 return -1;
-            }else if(comp.totalCost == this.totalCost){
+            } else if(comp.totalCost == this.totalCost) {
                 return 0;
-            }else{
+            } else {
                 return 1;
             }
         }
 
-        if(comp.valid){
+        if(comp.valid) {
             return 1;
         }
-        if(this.valid){
+        if(this.valid) {
             return -1;
         }
 
-        if(comp.numCustomers > this.numCustomers){
+        if(comp.numCustomers > this.numCustomers) {
             return -1;
-        }else if(comp.numCustomers == this.numCustomers){
+        } else if(comp.numCustomers == this.numCustomers) {
             return 0;
-        }else{
+        } else {
             return 1;
         }
     }
@@ -56,7 +57,7 @@ public class Solution implements Comparable<Solution>{
      * Methods
      */
     public void initialize() {
-        // Create vehicles and assign to depots
+        // Create maximum number of vehicles and assign to depots
         for(int i = 0; i < Run.t; i++) {
             for(int j = 0; j < Run.m; j++) {
                 vehicles.add(new Vehicle((j+1), Run.depots.get(i)));
@@ -71,18 +72,18 @@ public class Solution implements Comparable<Solution>{
             double minAddedDistance = Double.MAX_VALUE;
             int index = -1;
 
-            for(Vehicle v : vehicles){
+            for(Vehicle v : vehicles) {
                 double[] newDist = v.getMinDistanceWithC(c,false);
-                if(newDist[1] != -1){
-                    if(minAddedDistance > newDist[0]){
+                if(newDist[1] != -1) {
+                    if(minAddedDistance > newDist[0]) {
                         minAddedDistance = newDist[0];
-                        index = (int)newDist[1];
+                        index = (int) newDist[1];
                         tempVehicle = v;
                     }
                 }
             }
 
-            if (tempVehicle == null){
+            if(tempVehicle == null) {
                 notPlaced.add(c);
                 valid = false;
                 totalCost = Double.MAX_VALUE;
@@ -91,7 +92,7 @@ public class Solution implements Comparable<Solution>{
             }
         }
 
-        if(!valid){
+        if(!valid) {
             repair();
         }
     }
@@ -110,7 +111,7 @@ public class Solution implements Comparable<Solution>{
 
     public void repair() {
         int itr = 0;
-        while (!valid && itr < 999) {
+        while(!valid && itr < 999) {
             if(notPlaced.size() == 0) {
                 valid = true;
             } else {
@@ -127,7 +128,7 @@ public class Solution implements Comparable<Solution>{
 
         int itr = 0;
 
-        while (notPlaced.size() != 0 && itr < 1000) {
+        while(notPlaced.size() != 0 && itr < 1000) {
             int rIndex = (int) (Math.random()*notPlaced.size());
             Customer c = notPlaced.get(rIndex);
             double minDiff = Double.MAX_VALUE;
@@ -142,7 +143,7 @@ public class Solution implements Comparable<Solution>{
             }
             if(addTo == null) {
                 System.err.println("ERROR! Solution make Valid");
-            }else {
+            } else {
                 boolean validForce = addTo.forceFitC(c);
                 notPlaced.remove(c);
 
@@ -156,24 +157,24 @@ public class Solution implements Comparable<Solution>{
     }
 
     private void makeValid(ArrayList<Vehicle> inValid) {
-        if(inValid.size() == 0){
+        if(inValid.size() == 0) {
             valid = true;
             return;
         }
-        for(Vehicle v : inValid){
-            while (!v.isValid()){
+        for(Vehicle v : inValid) {
+            while (!v.isValid()) {
                 notPlaced.add(v.removeRandom());
             }
         }
     }
 
     public void calculateTotalCost() {
-        if(!valid ){
+        if(!valid ) {
             numCustomers = 0;
-            for(Vehicle v : vehicles){
+            for(Vehicle v : vehicles) {
                 numCustomers += v.getCustomers().size();
             }
-        }else{
+        } else {
             totalCost = 0.0;
             for(Vehicle v : vehicles){
                 totalCost += v.getRouteDuration();
@@ -202,7 +203,7 @@ public class Solution implements Comparable<Solution>{
                 DuplicateNode temp = new DuplicateNode(customer.getId());
 
                 for(DuplicateNode n : tempDuplicates) {
-                    if(n.equals(temp)){
+                    if(n.equals(temp)) {
                         n.addVehicle(vehicle);
                         notFound = false;
                     }
@@ -243,7 +244,7 @@ public class Solution implements Comparable<Solution>{
         }
     }
     private void randomDeleteMutate(double mutationRate) {
-        // Fjerne potensielt mange customers per vehicle
+        // Potentially remove many customers per vehicle
         for(int i = 0; i < vehicles.size(); i++) {
             boolean subtract = false;
             for(int j = 0; j < vehicles.get(i).getCustomers().size(); j++) {
@@ -256,21 +257,6 @@ public class Solution implements Comparable<Solution>{
                 i--;
             }
         }
-
-        // Fjerne potensielt en customer per vehicle
-        /*
-        for(int i = 0; i < vehicles.size(); i++) {
-            if (vehicles.get(i).getCustomers().size() > 0) {
-                if (Math.random() <= mutationRate) {
-                    Customer removed = vehicles.get(i).removeRandom();
-                    notPlaced.add(removed);
-                    if(i > 0) {
-                        i--;
-                    }
-                }
-            }
-        }
-        */
     }
 
     /*

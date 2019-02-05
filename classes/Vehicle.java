@@ -16,7 +16,7 @@ public class Vehicle {
         this.startDepot = startDepot;
         this.endDepot = startDepot;
     }
-
+    // Clone a Vehicle
     public Vehicle(Vehicle vehicle) {
         this.idForDepot = vehicle.idForDepot;
         this.startDepot = vehicle.startDepot;
@@ -68,17 +68,17 @@ public class Vehicle {
 
     public double getNewDiff(Customer c) {
         double[]  temp = getMinDistanceWithC(c, true);
-        return temp[0]-duration;
+        return temp[0] - duration;
     }
 
     public double[] getMinDistanceWithC(Customer c, boolean notValid) {
         double minDistance = Double.MAX_VALUE;
         double index = -1;
 
-        for(int i = 0; i <= customers.size(); i++){
+        for(int i = 0; i <= customers.size(); i++) {
             double tempDist = getDistanceWithC(c,i);
-            if (tempDist < minDistance){
-                if(notValid || validateCustomer(c,i) != null){
+            if(tempDist < minDistance) {
+                if(notValid || validateCustomer(c,i) != null) {
                     index = i;
                     minDistance = tempDist;
                 }
@@ -114,7 +114,7 @@ public class Vehicle {
     }
 
     public Boolean forceFitC(Customer c) {
-        double[]  temp = getMinDistanceWithC(c, true);
+        double[] temp = getMinDistanceWithC(c, true);
         int index = (int)temp[1];
 
         customers.add(index, c);

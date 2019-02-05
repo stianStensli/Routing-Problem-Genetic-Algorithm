@@ -56,7 +56,7 @@ public class EvaluationAlgorithm {
 
             while(offsprings.size() < numOffsprings) {
                 // Selection
-                Solution[] selected = rankSelection();//tournamentSelection();
+                Solution[] selected = rankSelection();
 
                 // Crossover
                 Solution[] offspringsTemp = crossover(selected[0], selected[1]);
@@ -95,7 +95,7 @@ public class EvaluationAlgorithm {
     /*
      * Methods
      */
-       public Solution[] tournamentSelection() {
+    public Solution[] tournamentSelection() {
         List<Solution> tournament = new ArrayList<>();
 
         for(int i = 0; i < tournamentSize; i++) {
@@ -114,7 +114,6 @@ public class EvaluationAlgorithm {
 
         return new Solution[]{tournament.get(0), tournament.get(1)};
     }
-
     public Solution[] rankSelection() {
         Collections.sort(population);
 
@@ -128,7 +127,6 @@ public class EvaluationAlgorithm {
         return new Solution[]{topN.pop(), topN.pop()};
     }
 
-
     public Solution[] crossover(Solution father, Solution mother) {
         Solution[] offsprings;
 
@@ -137,7 +135,6 @@ public class EvaluationAlgorithm {
         }else{
             offsprings = new Solution[]{new Solution(father), new Solution(mother)};
         }
-
 
         for(Solution offspring : offsprings) {
             // Remove duplicates
