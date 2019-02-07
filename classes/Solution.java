@@ -149,7 +149,7 @@ public class Solution implements Comparable<Solution>{
                 notPlaced.remove(c);
 
                 if(!validForce && !invalid.contains(addTo)){
-                        invalid.add(addTo);
+                    invalid.add(addTo);
                 }
             }
             itr++;
