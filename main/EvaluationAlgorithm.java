@@ -28,9 +28,9 @@ public class EvaluationAlgorithm {
 
     }
 
-    public void run(){
+    public void run() {
         // If elitism is turned off
-        if(!survival ){
+        if(!survival ) {
             numOffsprings = popSize;
         }
 
@@ -46,7 +46,7 @@ public class EvaluationAlgorithm {
         System.out.println("Initialize population done. " + popSize + " random solutions found");
 
         // Calculate fitness score
-        for(Solution s : population){
+        for(Solution s : population) {
             s.calculateTotalCost();
         }
 
@@ -62,14 +62,14 @@ public class EvaluationAlgorithm {
                 Solution[] offspringsTemp = crossover(selected[0], selected[1]);
 
                 // Mutation
-                for(Solution child : offspringsTemp){
+                for(Solution child : offspringsTemp) {
                     mutate(child);
-                    if(child.isValid()){
+                    if(child.isValid()) {
                         offsprings.add(child);
                     }
                 }
             }
-            while (offsprings.size() > numOffsprings){
+            while (offsprings.size() > numOffsprings) {
                 offsprings.remove(offsprings.size()-1);
             }
 
