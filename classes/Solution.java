@@ -19,6 +19,7 @@ public class Solution implements Comparable<Solution>{
             initialize();
         }
     }
+
     public Solution(Solution clone) {
         for(int i = 0; i < clone.getVehicles().size(); i++) {
             this.addVehicle(new Vehicle(clone.getVehicles().get(i)));
@@ -230,6 +231,7 @@ public class Solution implements Comparable<Solution>{
     public void mutate(double mutationRate) {
         randomDeleteMutate(mutationRate);
     }
+
     private void swapMutate(double mutationRate) {
         for(Vehicle vehicle : vehicles) {
             if(Math.random() <= mutationRate && vehicle.getCustomers().size() > 1) {
@@ -243,6 +245,7 @@ public class Solution implements Comparable<Solution>{
             }
         }
     }
+
     private void randomDeleteMutate(double mutationRate) {
         // Potentially remove many customers per vehicle
         for(int i = 0; i < vehicles.size(); i++) {

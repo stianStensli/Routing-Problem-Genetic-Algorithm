@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Vehicle {
     private int idForDepot = 0;
     private Depot startDepot;
-    private Depot endDepot = null;
+    private Depot endDepot;
     private int currentLoad = 0;
     private double duration = 0.0; // Route duration to Final Customer. Does not include end depot
     private ArrayList<Customer> customers = new ArrayList<>();
@@ -16,6 +16,7 @@ public class Vehicle {
         this.startDepot = startDepot;
         this.endDepot = startDepot;
     }
+
     // Clone a Vehicle
     public Vehicle(Vehicle vehicle) {
         this.idForDepot = vehicle.idForDepot;
@@ -80,7 +81,7 @@ public class Vehicle {
             if(tempDist < minDistance) {
                 if(notValid || validateCustomer(c,i) != null) {
                     index = i;
-                    minDistance = tempDist;
+                    minDistance = tempDist + c.getDuration();
                 }
             }
         }
@@ -99,18 +100,18 @@ public class Vehicle {
             return;
         }
 
-        distance += PositionNode.distanceTo(customers.get(0),startDepot);
+        distance += PositionNode.distanceTo(customers.get(0),startDepot) + customers.get(0).getDuration();
         for(int i = 1; i < customers.size(); i++){
-            distance += PositionNode.distanceTo(customers.get(i),customers.get(i-1));
+            Customer c = customers.get(i);
+            distance += PositionNode.distanceTo(c,customers.get(i-1)) + c.getDuration();
             load += customers.get(i).getDemand();
-
         }
-        distance += customers.get(customers.size()-1).getClosestDepotLength();
+        Customer lastCustomer = customers.get(customers.size()-1);
+        distance += lastCustomer.getClosestDepotLength();
 
         duration = distance;
         currentLoad = load;
-
-        endDepot = customers.get(customers.size() - 1).getClosestDepot();
+        endDepot = lastCustomer.getClosestDepot();
     }
 
     public Boolean forceFitC(Customer c) {
@@ -129,12 +130,13 @@ public class Vehicle {
     public boolean addCustomer(Customer c) {
         return addCustomer(c, customers.size()-1);
     }
+
     public boolean addCustomer(Customer c, int pos) {
         Double newDist = validateCustomer(c, pos);
         if (newDist != null) {
             customers.add(pos, c);
 
-            duration = newDist.doubleValue();
+            duration = newDist.doubleValue() + c.getDuration();
             currentLoad += c.getDemand();
             endDepot = customers.get(customers.size() - 1).getClosestDepot();
             return true;
@@ -164,9 +166,11 @@ public class Vehicle {
     public void removeCustomer(Customer c) {
         removeCustomer(c, -1);
     }
+
     public void removeCustomer(int pos) {
         removeCustomer(null, pos);
     }
+
     public void removeCustomer(Customer c, int pos) {
         if(pos != -1) {
             customers.remove(pos);
@@ -183,11 +187,6 @@ public class Vehicle {
         removeCustomer(c);
         quickValidate();
         return c;
-    }
-
-    public Customer removeCloseToPath(ArrayList<Vehicle> vehicles) {
-        quickValidate();
-        return null;
     }
 
     public void quickValidate(){

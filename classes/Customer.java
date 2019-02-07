@@ -50,20 +50,11 @@ public class Customer extends PositionNode{
     public int getId() {
         return id;
     }
-    public void setId(int i) {
-        this.id = i;
-    }
     public int getDuration() {
         return duration;
     }
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
     public int getDemand() {
         return demand;
-    }
-    public void setDemand(int demand) {
-        this.demand = demand;
     }
     public Depot getClosestDepot() {
         return closestDepot;
