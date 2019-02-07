@@ -176,7 +176,9 @@ public class GUI implements Initializable {
 
     private void drawText(Solution s) {
         generation.setText(algorithm.getGeneration().toString());
-        fitness.setText(Double.toString(s.getTotalCost()));
+        Double fitnessScore = Math.round(s.getTotalCost() * 100.0) / 100.0;
+        //fitness.setText(Double.toString(s.getTotalCost()));
+        fitness.setText(Double.toString(fitnessScore));
     }
 
     public void setStage(Stage stage) {

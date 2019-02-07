@@ -67,7 +67,7 @@ public class Vehicle {
     }
 
     public double getNewDiff(Customer c) {
-        double[]  temp = getMinDistanceWithC(c, true);
+        double[] temp = getMinDistanceWithC(c, true);
         return temp[0] - duration;
     }
 
