@@ -77,16 +77,16 @@ public class GUI implements Initializable {
     }
     private void initThread(){
         calcThread = new Thread(new Runnable() {
-        public void run() {
-            intList.clear();
-            solutionSize = 0;
-            algorithm = new EvaluationAlgorithm();
-            algorithm.loadObservableList(intList);
-            algorithm.run();
-        }
-    });
-
+            public void run() {
+                intList.clear();
+                solutionSize = 0;
+                algorithm = new EvaluationAlgorithm();
+                algorithm.loadObservableList(intList);
+                algorithm.run();
+            }
+        });
     }
+
     private void initChoiceBox() {
         File folder = new File("./src/Data Files/");
         File[] listOfFiles = folder.listFiles();

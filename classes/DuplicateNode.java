@@ -3,13 +3,14 @@ package classes;
 import java.util.ArrayList;
 
 public class DuplicateNode {
-    private int customerId = 0;
+    private int customerId;
     private Customer c;
     private ArrayList<Vehicle> vehicles = new ArrayList<>();
 
     public DuplicateNode(int customerId) {
         this.customerId = customerId;
     }
+
     public DuplicateNode(Customer customer) {
         this.customerId = customer.getId();
         this.c = customer;
@@ -25,12 +26,15 @@ public class DuplicateNode {
         this.c = customer;
         this.customerId = customerId;
     }
+
     public ArrayList<Vehicle> getVehicles() {
         return vehicles;
     }
+
     public Customer getCustomer() {
         return c;
     }
+
     public void addVehicle(Vehicle vehicle) {
         this.vehicles.add(vehicle);
     }
