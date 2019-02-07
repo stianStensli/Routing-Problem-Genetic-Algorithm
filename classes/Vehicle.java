@@ -81,7 +81,7 @@ public class Vehicle {
             if(tempDist < minDistance) {
                 if(notValid || validateCustomer(c,i) != null) {
                     index = i;
-                    minDistance = tempDist;
+                    minDistance = tempDist + c.getDuration();
                 }
             }
         }
@@ -100,18 +100,18 @@ public class Vehicle {
             return;
         }
 
-        distance += PositionNode.distanceTo(customers.get(0),startDepot);
+        distance += PositionNode.distanceTo(customers.get(0),startDepot) + customers.get(0).getDuration();
         for(int i = 1; i < customers.size(); i++){
-            distance += PositionNode.distanceTo(customers.get(i),customers.get(i-1));
+            Customer c = customers.get(i);
+            distance += PositionNode.distanceTo(c,customers.get(i-1)) + c.getDuration();
             load += customers.get(i).getDemand();
-
         }
-        distance += customers.get(customers.size()-1).getClosestDepotLength();
+        Customer lastCustomer = customers.get(customers.size()-1);
+        distance += lastCustomer.getClosestDepotLength();
 
         duration = distance;
         currentLoad = load;
-
-        endDepot = customers.get(customers.size() - 1).getClosestDepot();
+        endDepot = lastCustomer.getClosestDepot();
     }
 
     public Boolean forceFitC(Customer c) {
@@ -136,7 +136,7 @@ public class Vehicle {
         if (newDist != null) {
             customers.add(pos, c);
 
-            duration = newDist.doubleValue();
+            duration = newDist.doubleValue() + c.getDuration();
             currentLoad += c.getDemand();
             endDepot = customers.get(customers.size() - 1).getClosestDepot();
             return true;
