@@ -23,7 +23,7 @@
                      <font>
                         <Font size="18.0" />
                      </font></Label>
-                        <Button mnemonicParsing="false" onAction="#calculate" text="calculate" />
+                        <Button mnemonicParsing="false" onAction="#calculate" text="Calculate" />
                   <Button mnemonicParsing="false" onAction="#writeFile" text="Save to file" />
                         <ChoiceBox fx:id="cBox" onAction="#changeFile" prefWidth="150.0" />
                     </children>
