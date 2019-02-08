@@ -56,7 +56,7 @@ public class EvaluationAlgorithm {
 
             while(offsprings.size() < numOffsprings) {
                 // Selection
-                Solution[] selected = rankSelectionDiverse();
+                Solution[] selected = rankSelectionActual();
 
                 // Crossover
                 Solution[] offspringsTemp = crossover(selected[0], selected[1]);
@@ -114,6 +114,40 @@ public class EvaluationAlgorithm {
 
         return new Solution[]{tournament.get(0), tournament.get(1)};
     }
+    public Solution[] rankSelectionActual() {
+        Collections.sort(population);
+        int shares = (popSize+1)*popSize/2;
+        int index = (int)(Math.random()*shares) + 1;
+
+        Solution father = null;
+        int rmShares = 0;
+        int lastIndex = 0;
+        for(int i = 0; i < popSize; i++){
+            rmShares += popSize-i;
+            if(shares - rmShares <  index){
+                father = population.get(i);
+                lastIndex = i;
+            }
+        }
+
+        shares = (popSize)*(popSize-1)/2;
+        index = (int)(Math.random()*shares) + 1;
+
+        Solution mother = null;
+        rmShares = 0;
+        int virituelI = 0;
+        for(int i = 0; i < popSize; i++){
+            if(i != lastIndex){
+                virituelI++;
+                rmShares += (popSize-1)-virituelI;
+                if(shares - rmShares <  index){
+                    father = population.get(i);
+                }
+            }
+        }
+        return new Solution[]{father, mother};
+    }
+
     public Solution[] rankSelection() {
         Collections.sort(population);
 
@@ -126,6 +160,7 @@ public class EvaluationAlgorithm {
 
         return new Solution[]{topN.pop(), topN.pop()};
     }
+
     public Solution[] rankSelectionDiverse() {
         Collections.sort(population);
 
@@ -166,6 +201,7 @@ public class EvaluationAlgorithm {
 
         return offsprings;
     }
+
     public Solution[] singlePointCrossover(Solution father, Solution mother) {
     	int crossoverPoint = (int) (Math.random()*(father.getVehicles().size() - 2));
         Solution[] offsprings = new Solution[]{new Solution(), new Solution()};
