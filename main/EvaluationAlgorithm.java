@@ -127,7 +127,7 @@ public class EvaluationAlgorithm {
         double sumFitness = 0.0;
 
         for(Solution s : population) {
-            sumFitness += s.getTotalCost();
+            sumFitness += 1 / s.getTotalCost();
         }
 
         double valueFather = Math.random() * sumFitness;
@@ -137,13 +137,13 @@ public class EvaluationAlgorithm {
         Solution mother = null;
 
         for(Solution s : population) {
-            valueFather -= s.getTotalCost();
-            valueMother -= s.getTotalCost();
+            valueFather -= 1 / s.getTotalCost();
+            valueMother -= 1 / s.getTotalCost();
 
             if(valueFather < 0 && father == null) {
                 father = s;
             }
-            if(valueMother < 0 && mother == null) {
+            if(valueMother < 0 && mother == null && !s.equals(father)) {
                 mother = s;
             }
             if(father != null && mother != null) {
