@@ -56,7 +56,7 @@ public class EvaluationAlgorithm {
 
             while(offsprings.size() < numOffsprings) {
                 // Selection
-                Solution[] selected = rankSelection();
+                Solution[] selected = rankSelectionDiverse();
 
                 // Crossover
                 Solution[] offspringsTemp = crossover(selected[0], selected[1]);
@@ -122,6 +122,22 @@ public class EvaluationAlgorithm {
         while(topN.size() < tournamentSize) {
             topN.add(population.get(topN.size()));
         }
+        Collections.shuffle(topN);
+
+        return new Solution[]{topN.pop(), topN.pop()};
+    }
+    public Solution[] rankSelectionDiverse() {
+        Collections.sort(population);
+
+        LinkedList<Solution> topN = new LinkedList<>();
+
+        while(topN.size() < tournamentSize) {
+            topN.add(population.get(topN.size()));
+        }
+        //Adding a random Node for diversity
+
+        int rnd = (int)(Math.random()*(popSize-tournamentSize))+tournamentSize;
+        topN.add(population.get(rnd));
         Collections.shuffle(topN);
 
         return new Solution[]{topN.pop(), topN.pop()};
