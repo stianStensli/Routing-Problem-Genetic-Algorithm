@@ -124,12 +124,13 @@ public class EvaluationAlgorithm {
         int lastIndex = 0;
         for(int i = 0; i < popSize; i++){
             rmShares += popSize-i;
-            if(shares - rmShares <  index){
+            if(shares - rmShares < index){
                 father = population.get(i);
                 lastIndex = i;
             }
         }
 
+        /*
         shares = (popSize)*(popSize-1)/2;
         index = (int)(Math.random()*shares) + 1;
 
@@ -140,11 +141,23 @@ public class EvaluationAlgorithm {
             if(i != lastIndex){
                 virituelI++;
                 rmShares += (popSize-1)-virituelI;
-                if(shares - rmShares <  index){
-                    father = population.get(i);
+                if(shares - rmShares < index){
+                    mother = population.get(i);
+                    break;
                 }
+                System.out.println(shares - rmShares);
             }
         }
+        */
+        Solution mother = null;
+        rmShares = 0;
+        for(int i = 0; i < popSize; i++){
+            rmShares += popSize-i;
+            if(shares - rmShares < index){
+                mother = population.get(i);
+            }
+        }
+
         return new Solution[]{father, mother};
     }
 
