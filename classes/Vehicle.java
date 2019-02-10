@@ -127,10 +127,6 @@ public class Vehicle {
         return valid;
     }
 
-    public boolean addCustomer(Customer c) {
-        return addCustomer(c, customers.size()-1);
-    }
-
     public boolean addCustomer(Customer c, int pos) {
         Double newDist = validateCustomer(c, pos);
         if (newDist != null) {
@@ -166,11 +162,6 @@ public class Vehicle {
     public void removeCustomer(Customer c) {
         removeCustomer(c, -1);
     }
-
-    public void removeCustomer(int pos) {
-        removeCustomer(null, pos);
-    }
-
     public void removeCustomer(Customer c, int pos) {
         if(pos != -1) {
             customers.remove(pos);

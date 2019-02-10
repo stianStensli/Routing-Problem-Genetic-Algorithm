@@ -50,14 +50,6 @@ public class EvaluationAlgorithm {
             s.calculateTotalCost();
         }
 
-        /*
-        Solution[] selected = rouletteWheelSelection();
-
-        for(Solution s : selected) {
-            System.out.println(s.getTotalCost());
-        }
-        */
-
         generation.set(0);
         while(generation.incrementAndGet() < maxRuns) {
             ArrayList<Solution> offsprings = new ArrayList<>();
@@ -102,6 +94,98 @@ public class EvaluationAlgorithm {
 
     /*
      * Methods
+     */
+    public Solution[] customRankSelectionDiverse() {
+        Collections.sort(population);
+
+        LinkedList<Solution> topN = new LinkedList<>();
+
+        while(topN.size() < tournamentSize) {
+            topN.add(population.get(topN.size()));
+        }
+
+        //Adding a random Node for diversity
+        int rnd = (int)(Math.random()*(popSize-tournamentSize))+tournamentSize;
+        topN.add(population.get(rnd));
+        Collections.shuffle(topN);
+
+        return new Solution[]{topN.pop(), topN.pop()};
+    }
+
+    public Solution[] crossover(Solution father, Solution mother) {
+        Solution[] offsprings;
+
+        if(Math.random() < recombProbability) {
+            offsprings = singlePointCrossover(father, mother);
+        }else{
+            offsprings = new Solution[]{new Solution(father), new Solution(mother)};
+        }
+
+        for(Solution offspring : offsprings) {
+            // Remove duplicates
+            offspring.removeDuplicateCustomers();
+
+            // Find potential customers that has no vehicle assigned to it
+            offspring.updateMissingCustomers();
+
+            // Make the solution valid, meaning all customers are used and no constraints are broken
+            offspring.validate();
+            offspring.repair();
+        }
+
+        return offsprings;
+    }
+    public Solution[] singlePointCrossover(Solution father, Solution mother) {
+    	int crossoverPoint = (int) (Math.random()*(father.getVehicles().size() - 2));
+        Solution[] offsprings = new Solution[]{new Solution(), new Solution()};
+
+        for(int i = 0; i < father.getVehicles().size(); i++) {
+            if(i <= crossoverPoint) {
+                offsprings[0].addVehicle(new Vehicle(father.getVehicles().get(i)));
+                offsprings[1].addVehicle(new Vehicle(mother.getVehicles().get(i)));
+            }
+            else {
+                offsprings[0].addVehicle(new Vehicle(mother.getVehicles().get(i)));
+                offsprings[1].addVehicle(new Vehicle(father.getVehicles().get(i)));
+            }
+        }
+
+    	return offsprings;
+    }
+
+    public void mutate(Solution solution) {
+        solution.mutate(mutationRate);
+        solution.validate();
+        solution.repair();
+    }
+
+    /*
+     * Getters and Setters
+     */
+    public static int getPopSize() { return popSize; }
+    public void setPopSize(int popSize) { this.popSize = popSize; }
+    public static int getNumOffsprings() { return numOffsprings; }
+    public void setNumOffsprings(int numOffsprings) { this.numOffsprings = numOffsprings; }
+    public static boolean isSurvival() { return survival; }
+    public void setSurvival(boolean survival) { this.survival = survival; }
+    public static double getMutationRate() { return mutationRate; }
+    public void setMutationRate(double mutationRate) { this.mutationRate = mutationRate; }
+    public static double getRecombProbability() { return recombProbability; }
+    public void setRecombProbability(double recombProbability) { this.recombProbability = recombProbability; }
+    public static int getMaxRuns() { return maxRuns; }
+    public void setMaxRuns(int maxRuns) { this.maxRuns = maxRuns; }
+    public static int getTournamentSize() { return tournamentSize; }
+    public void setTournamentSize(int tournamentSize) { this.tournamentSize = tournamentSize; }
+
+	public static List<Solution> getPopulation() { return population; }
+	public static Solution getBestSolution() { return bestSolution; }
+	public void loadObservableList(ArrayList<Solution> ob){ this.ob = ob; }
+    public AtomicInteger getGeneration() { return generation; }
+
+    /*
+     *
+     * These methods were implemented and tested, but did not make the cut
+     *
      */
     public Solution[] tournamentSelection() {
         List<Solution> tournament = new ArrayList<>();
@@ -153,7 +237,6 @@ public class EvaluationAlgorithm {
 
         return new Solution[]{father, mother};
     }
-
     public Solution[] rankSelectionActual() {
         Collections.sort(population);
         int shares = (popSize+1)*popSize/2;
@@ -183,75 +266,7 @@ public class EvaluationAlgorithm {
 
         return new Solution[]{father, mother};
     }
-    public Solution[] rankSelection() {
-        Collections.sort(population);
 
-        LinkedList<Solution> topN = new LinkedList<>();
-
-        while(topN.size() < tournamentSize) {
-            topN.add(population.get(topN.size()));
-        }
-        Collections.shuffle(topN);
-
-        return new Solution[]{topN.pop(), topN.pop()};
-    }
-    public Solution[] rankSelectionDiverse() {
-        Collections.sort(population);
-
-        LinkedList<Solution> topN = new LinkedList<>();
-
-        while(topN.size() < tournamentSize) {
-            topN.add(population.get(topN.size()));
-        }
-        //Adding a random Node for diversity
-
-        int rnd = (int)(Math.random()*(popSize-tournamentSize))+tournamentSize;
-        topN.add(population.get(rnd));
-        Collections.shuffle(topN);
-
-        return new Solution[]{topN.pop(), topN.pop()};
-    }
-
-    public Solution[] crossover(Solution father, Solution mother) {
-        Solution[] offsprings;
-
-        if(Math.random() < recombProbability) {
-            offsprings = singlePointCrossover(father, mother);
-        }else{
-            offsprings = new Solution[]{new Solution(father), new Solution(mother)};
-        }
-
-        for(Solution offspring : offsprings) {
-            // Remove duplicates
-            offspring.removeDuplicateCustomers();
-
-            // Find potential customers that has no vehicle assigned to it
-            offspring.updateMissingCustomers();
-
-            // Make the solution valid, meaning all customers are used and no constraints are broken
-            offspring.validate();
-            offspring.repair();
-        }
-
-        return offsprings;
-    }
-    public Solution[] singlePointCrossover(Solution father, Solution mother) {
-    	int crossoverPoint = (int) (Math.random()*(father.getVehicles().size() - 2));
-        Solution[] offsprings = new Solution[]{new Solution(), new Solution()};
-
-        for(int i = 0; i < father.getVehicles().size(); i++) {
-            if(i <= crossoverPoint) {
-                offsprings[0].addVehicle(new Vehicle(father.getVehicles().get(i)));
-                offsprings[1].addVehicle(new Vehicle(mother.getVehicles().get(i)));
-            }
-            else {
-                offsprings[0].addVehicle(new Vehicle(mother.getVehicles().get(i)));
-                offsprings[1].addVehicle(new Vehicle(father.getVehicles().get(i)));
-            }
-        }
-
-    	return offsprings;
-    }
     public Solution[] uniformCrossover(Solution father, Solution mother) {
         Solution[] offsprings = new Solution[]{new Solution(), new Solution()};
 
@@ -268,33 +283,4 @@ public class EvaluationAlgorithm {
 
         return offsprings;
     }
-    
-    public void mutate(Solution solution) {
-        solution.mutate(mutationRate);
-        solution.validate();
-        solution.repair();
-    }
-
-    /*
-     * Getters and Setters
-     */
-    public static int getPopSize() { return popSize; }
-    public void setPopSize(int popSize) { this.popSize = popSize; }
-    public static int getNumOffsprings() { return numOffsprings; }
-    public void setNumOffsprings(int numOffsprings) { this.numOffsprings = numOffsprings; }
-    public static boolean isSurvival() { return survival; }
-    public void setSurvival(boolean survival) { this.survival = survival; }
-    public static double getMutationRate() { return mutationRate; }
-    public void setMutationRate(double mutationRate) { this.mutationRate = mutationRate; }
-    public static double getRecombProbability() { return recombProbability; }
-    public void setRecombProbability(double recombProbability) { this.recombProbability = recombProbability; }
-    public static int getMaxRuns() { return maxRuns; }
-    public void setMaxRuns(int maxRuns) { this.maxRuns = maxRuns; }
-    public static int getTournamentSize() { return tournamentSize; }
-    public void setTournamentSize(int tournamentSize) { this.tournamentSize = tournamentSize; }
-
-	public static List<Solution> getPopulation() { return population; }
-	public static Solution getBestSolution() { return bestSolution; }
-	public void loadObservableList(ArrayList<Solution> ob){ this.ob = ob; }
-    public AtomicInteger getGeneration() { return generation; }
 }
