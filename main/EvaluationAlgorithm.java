@@ -56,7 +56,7 @@ public class EvaluationAlgorithm {
 
             while(offsprings.size() < numOffsprings) {
                 // Selection
-                Solution[] selected = rouletteWheelSelection();
+                Solution[] selected = customRankSelectionDiverse();
 
                 // Crossover
                 Solution[] offspringsTemp = crossover(selected[0], selected[1]);
