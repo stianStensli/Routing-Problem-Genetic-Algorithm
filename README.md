@@ -1,4 +1,4 @@
-## MDVRP solved by Genetic Algorithm
+## MDVRP solved by a Genetic Algorithm
 
 ### MDVRP
 The Multiple Depots Vehicle Routing Problem (MDVRP) describes the vehicle scheduling challenge for a transportation company. The transportation company has
