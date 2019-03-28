@@ -22,3 +22,9 @@ REPEAT
     Mutation: possibility of editing the genes of the offsprings
 UNTIL population has converged
 ```
+
+The resulting product is an application capable of giving a good solution in a reasonable timeframe. The program is presented in the image below.
+
+<p align="center">
+  <img src="img/running.png" width="600" title="the application">
+</p>
